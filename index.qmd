@@ -1,57 +1,17 @@
 ---
-title: "Introduction"
+title: "Site_quarto"
 ---
 
-# Préambule
+This is a Quarto website.
 
-Ce document compile mes notes au cours de la formation « data analyst » proposée par le CEPE (ENSAI-ENSAE).
+To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 
-## Contenu de la formation
+```{r}
+1 + 1
+```
 
--   Statistiques descriptives
+```{r}
+data("iris")
+str(iris)
+```
 
--   Statistique inférentielle
-
-    -   Probabilités
-
-    -   Intervalles de confiance
-
-    -   Test statistique
-
--   Analyse factorielle
-
-    -   Analyse en composantes principales (ACP)
-
-    -   Analyse factorielle des correspondances (AFC)
-
-    -   Analyse des correspondances multiples (ACM)
-
--   Régression linéaire
-
-    -   Simple
-
-    -   Multiple
-
--   Classification supervisée
-
-    -   Régression logistique
-
-    -   Arbres
-
--   Classifications non-supervisée
-
-    -   Méthodes de partitionnement (k-means)
-
-    -   Classification ascendante hiérarchique (CAH)
-
--   Introduction au text mining
-
-## Références bibliographiques
-
--   Statistique descriptive, cours et exercices corrigés - A.Hamon, N.Jégou - PUR (2008)
-
--   Statistique générale pour utilisateurs - J.Pagès - PUR (2012)
-
--   Statistique : économie-gestion-sciences-médecine - H.Wonnacott, J.Wonnacott - Economica (1999)
-
--   R pour la Statistique et la science des données - Cornillon et al. - PUR (2018)
