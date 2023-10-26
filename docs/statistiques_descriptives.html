@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Site_quarto - Statistiques descriptives</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Site_quarto</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./statistiques_descriptives.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Statistiques descriptives</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./analyses_factorielles.html" rel="" target="">
+ <span class="menu-text">Analyses factorielles</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#eléments-de-vocabulaire" id="toc-eléments-de-vocabulaire" class="nav-link active" data-scroll-target="#eléments-de-vocabulaire">Eléments de vocabulaire</a></li>
+  <li><a href="#statistiques-descriptives-univariées" id="toc-statistiques-descriptives-univariées" class="nav-link" data-scroll-target="#statistiques-descriptives-univariées">Statistiques descriptives univariées</a>
+  <ul class="collapse">
+  <li><a href="#variables-qualitatives" id="toc-variables-qualitatives" class="nav-link" data-scroll-target="#variables-qualitatives">Variables qualitatives</a></li>
+  <li><a href="#variables-quantitatives" id="toc-variables-quantitatives" class="nav-link" data-scroll-target="#variables-quantitatives">Variables quantitatives</a></li>
+  </ul></li>
+  <li><a href="#statistiques-descriptives-bivariées" id="toc-statistiques-descriptives-bivariées" class="nav-link" data-scroll-target="#statistiques-descriptives-bivariées">Statistiques descriptives bivariées</a>
+  <ul class="collapse">
+  <li><a href="#qualitatif-x-quantitatif" id="toc-qualitatif-x-quantitatif" class="nav-link" data-scroll-target="#qualitatif-x-quantitatif">Qualitatif x Quantitatif</a></li>
+  <li><a href="#quantitatif-x-quantitatif" id="toc-quantitatif-x-quantitatif" class="nav-link" data-scroll-target="#quantitatif-x-quantitatif">Quantitatif x Quantitatif</a></li>
+  <li><a href="#qualitatif-x-qualitatif" id="toc-qualitatif-x-qualitatif" class="nav-link" data-scroll-target="#qualitatif-x-qualitatif">Qualitatif x Qualitatif</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Statistiques descriptives</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="eléments-de-vocabulaire" class="level2">
+<h2 class="anchored" data-anchor-id="eléments-de-vocabulaire">Eléments de vocabulaire</h2>
+<ul>
+<li><p><strong>Statistique inférentielle</strong> = <u><strong>estimer</strong></u> des informations sur une <u><strong>population</strong></u> à partir d’un <u><strong>échantillon</strong></u>.</p></li>
+<li><p><strong>Statistique descriptive</strong> = décrire les données. C’est un préalable à toute étude statistique</p></li>
+</ul>
+</section>
+<section id="statistiques-descriptives-univariées" class="level2">
+<h2 class="anchored" data-anchor-id="statistiques-descriptives-univariées">Statistiques descriptives univariées</h2>
+<section id="variables-qualitatives" class="level3">
+<h3 class="anchored" data-anchor-id="variables-qualitatives">Variables qualitatives</h3>
+<section id="modalités-de-représentation-graphique" class="level4">
+<h4 class="anchored" data-anchor-id="modalités-de-représentation-graphique">Modalités de représentation graphique</h4>
+<p>Les modalités de représentation sur les <u><strong>diagrammes en barres.</strong></u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris<span class="sc">$</span>Species, <span class="at">col =</span> <span class="st">"#d8af90"</span>)  <span class="co"># Alternative : barplot(iris$Species, col = "#d8af90")}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dans ggplot</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> iris, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x =</span> Species)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill =</span> <span class="st">"lightgrey"</span>, <span class="at">col =</span> <span class="st">"darkgrey"</span>) <span class="sc">+</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_classic</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Nombre d'iris en fonction des espèces"</span>, </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Individus"</span>, </span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Espèces"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Les données peuvent également être représentées via un <u><strong>diagramme circulaire.</strong></u></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pie</span>(<span class="fu">table</span>(iris<span class="sc">$</span>Species), <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#d8af90"</span>, <span class="st">"#aac1ce"</span>, <span class="st">"#bed6d2"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dans ggplot</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>Table_Especes <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(<span class="fu">table</span>(iris<span class="sc">$</span>Species))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> Table_Especes, <span class="at">mapping =</span> <span class="fu">aes</span>(<span class="at">x=</span><span class="st">""</span>, <span class="at">y =</span> Freq, <span class="at">fill =</span> Var1)) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">"identity"</span>, <span class="at">width=</span><span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_polar</span>(<span class="st">"y"</span>, <span class="at">start=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="variables-quantitatives" class="level3">
+<h3 class="anchored" data-anchor-id="variables-quantitatives">Variables quantitatives</h3>
+<section id="modalités-de-représentation" class="level4">
+<h4 class="anchored" data-anchor-id="modalités-de-représentation">Modalités de représentation</h4>
+<ul>
+<li>Pour les variables discrètes : <u><strong>diagrammes en bâtons</strong></u></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>SL_discr <span class="ot">&lt;-</span> <span class="fu">round</span>(iris<span class="sc">$</span>Sepal.Length, <span class="dv">0</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(SL_discr))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Pour les variables continues : <u><strong>histogrammes</strong></u></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<ul>
+<li>Les <u><strong>boites à moustaches</strong></u> permettent de montrer les quartiles</li>
+</ul>
+</section>
+<section id="indicateurs-numériques" class="level4">
+<h4 class="anchored" data-anchor-id="indicateurs-numériques">Indicateurs numériques</h4>
+<section id="indicateurs-de-tendance-centrale" class="level5">
+<h5 class="anchored" data-anchor-id="indicateurs-de-tendance-centrale">Indicateurs de tendance centrale</h5>
+<p>La moyenne est le centre de gravité des observations.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.843333</code></pre>
+</div>
+</div>
+<p>La médiane est le centre de distribution des valeurs.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">median</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 5.8</code></pre>
+</div>
+</div>
+<p>Les quartiles séparent une série en sous-groupes d’effectifs similaires.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>SL_Quarti <span class="ot">&lt;-</span> <span class="fu">cut</span>(iris<span class="sc">$</span>Sepal.Length, </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">breaks =</span> <span class="fu">quantile</span>(<span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">probs =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="fl">0.25</span>)), </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">include.lowest =</span> <span class="cn">TRUE</span>) <span class="co"># l'argument probs permet de modifier les quantiles sélectionnés </span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(SL_Quarti)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SL_Quarti
+[4.3,5.1] (5.1,5.8] (5.8,6.4] (6.4,7.9] 
+       41        39        35        35 </code></pre>
+</div>
+</div>
+</section>
+<section id="indicateurs-de-dispersion" class="level5">
+<h5 class="anchored" data-anchor-id="indicateurs-de-dispersion">Indicateurs de dispersion</h5>
+<p>La variance est la moyenne des carrés des écarts à la moyenne.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">var</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.6856935</code></pre>
+</div>
+</div>
+<p>L’écart-type (noté sigma minuscule) est la racine carré de la variance. Il s’exprime donc dans la même unité que les données initiales.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sd</span>(iris<span class="sc">$</span>Sepal.Length)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.8280661</code></pre>
+</div>
+</div>
+<ul>
+<li><p><u><strong>Centrer</strong></u> les données consiste à retrancher la moyenne aux valeurs de la série. Le signe indique où se situe la valeur par rapport à la moyenne (si la valeur centrée est positive, la “vraie” valeur est supérieure à la moyenne). <u><strong>Les données centrées ont une moyenne nulle.</strong></u></p></li>
+<li><p><u><strong>Réduire</strong></u> les données consiste les diviser par l’écart-type. <u><strong>Les données réduites sont sans unité.</strong></u></p></li>
+</ul>
+<p>Les données centrées-réduites ont comme propriétés d’être de moyenne nulle et d’écart-type égal à 1.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">scale</span>(iris<span class="sc">$</span>Sepal.Length), <span class="dv">5</span>) <span class="co"># la fonction scale permet de centrer-réduire les données</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>           [,1]
+[1,] -0.8976739
+[2,] -1.1392005
+[3,] -1.3807271
+[4,] -1.5014904
+[5,] -1.0184372</code></pre>
+</div>
+</div>
+<p>Centrer-réduire permet de situer un individu plus facilement par rapport à la série. S’il se situe à plus de 2 écarts-types de la moyenne, il en est “vraiment” très loin.</p>
+<p>Pour aller plus loin :</p>
+<ul>
+<li><p>Inégalité de Markov</p></li>
+<li><p>Inégalité de Bienaymé-Tchebychev</p></li>
+</ul>
+</section>
+</section>
+</section>
+</section>
+<section id="statistiques-descriptives-bivariées" class="level2">
+<h2 class="anchored" data-anchor-id="statistiques-descriptives-bivariées">Statistiques descriptives bivariées</h2>
+<section id="qualitatif-x-quantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="qualitatif-x-quantitatif">Qualitatif x Quantitatif</h3>
+<section id="représentation-graphique" class="level4">
+<h4 class="anchored" data-anchor-id="représentation-graphique">Représentation graphique</h4>
+<p>La représentation graphique peut être réalisée via la comparaison des boites à moustaches. On étudie alors la distribution conditionnelle.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">~</span> iris<span class="sc">$</span>Species)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Pour voir les résultats sous forme de tableau :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>Aggr <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(iris<span class="sc">$</span>Sepal.Length, <span class="at">by =</span> <span class="fu">list</span>(iris<span class="sc">$</span>Species), <span class="at">FUN =</span> quantile) </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(Aggr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+  Group.1    x[,"0%"] [,"25%"] [,"50%"] [,"75%"] [,"100%"]
+  &lt;fct&gt;         &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 setosa          4.3     4.8       5        5.2       5.8
+2 versicolor      4.9     5.6       5.9      6.3       7  
+3 virginica       4.9     6.22      6.5      6.9       7.9</code></pre>
+</div>
+</div>
+<p>Dans le tidyverse, les modalités de rédaction sont les suivantes :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>iris <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Species) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reframe</span>(<span class="at">Quantile =</span> <span class="fu">quantile</span>(Sepal.Length))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 15 × 2
+   Species    Quantile
+   &lt;fct&gt;         &lt;dbl&gt;
+ 1 setosa         4.3 
+ 2 setosa         4.8 
+ 3 setosa         5   
+ 4 setosa         5.2 
+ 5 setosa         5.8 
+ 6 versicolor     4.9 
+ 7 versicolor     5.6 
+ 8 versicolor     5.9 
+ 9 versicolor     6.3 
+10 versicolor     7   
+11 virginica      4.9 
+12 virginica      6.22
+13 virginica      6.5 
+14 virginica      6.9 
+15 virginica      7.9 </code></pre>
+</div>
+</div>
+</section>
+<section id="décomposition-de-variance" class="level4">
+<h4 class="anchored" data-anchor-id="décomposition-de-variance">Décomposition de variance</h4>
+<p>La <u><strong>quantification du lien</strong></u> entre les variables peut être réalisée par la <u><strong>décomposition de la variance</strong></u>. L’équation de décomposition de la variance sépare la variabilité totale de Y en deux termes dont l’un peut être attribué au facteur X.</p>
+<p>Il s’agit de l’étude de la variance entre deux groupes :</p>
+<ul>
+<li><p>La variance intra-groupe : moyenne des variances propres à chaque modalité (<em>ici&nbsp;: la moyenne des variances des longueurs de pétales en fonction de l’espèces</em>)</p></li>
+<li><p>La variance inter-groupe&nbsp;: écarts des moyennes de groupe (<em>ici&nbsp;: la variance des longueurs de pétales à laquelle on retire la variance intra</em>).</p></li>
+</ul>
+<p>La variance inter-groupes est la part qu’on attribue à X :</p>
+<ul>
+<li><p>Si elle est nulle&nbsp;: les moyennes de groupe sont égales à la moyenne générale donc égales entre elles&nbsp;: il n’y a pas de différence en moyenne entre les groupes du fait de l’action du facteur</p></li>
+<li><p>Si la variance inter-groupe est grande&nbsp;: une ou plusieurs moyennes de groupes diffèrent singulièrement de la moyenne générale. Si la variance inter-groupe est nulle&nbsp;: on n’observe qu’une seule et même valeur par groupe et le facteur explique donc toute la variabilité de Y.</p></li>
+</ul>
+<p>Le <u><strong>rapport de corrélation</strong></u> est la proportion dans la variabilité totale de Y représentée par la part attribuée au facteur X. Le rapport est compris entre 0 et 1 (η²).</p>
+<p>Le rapport de corrélation est obtenu de la façon suivante dans R :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Res_ANOVA <span class="ot">&lt;-</span> <span class="fu">anova</span>(<span class="fu">lm</span>(Petal.Length<span class="sc">~</span>Species,<span class="at">data=</span>iris)) </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>Res_ANOVA[<span class="dv">1</span>,<span class="dv">2</span>]<span class="sc">/</span><span class="fu">sum</span>(Res_ANOVA[,<span class="dv">2</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.9413717</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="quantitatif-x-quantitatif" class="level3">
+<h3 class="anchored" data-anchor-id="quantitatif-x-quantitatif">Quantitatif x Quantitatif</h3>
+<section id="représentation-graphique-1" class="level4">
+<h4 class="anchored" data-anchor-id="représentation-graphique-1">Représentation graphique</h4>
+<p>La représentation graphique est réalisée via un nuage de points.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(Sepal.Length <span class="sc">~</span> Petal.Length, <span class="at">data =</span> iris)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="covariance-corrélation" class="level4">
+<h4 class="anchored" data-anchor-id="covariance-corrélation">Covariance / Corrélation</h4>
+<p>La covariance donne une indication sur la manière dont les deux variables “covarient”.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cov</span>(<span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length, <span class="at">y =</span> iris<span class="sc">$</span>Sepal.Width)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.042434</code></pre>
+</div>
+</div>
+<p>Le coefficient de corrélationn linéaire est la moyenne des produits terme à terme des données centrées-réduites.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(<span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length, <span class="at">y =</span> iris<span class="sc">$</span>Sepal.Width)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -0.1175698</code></pre>
+</div>
+</div>
+<p>Il est compris en -1 et 1, sans unité. S’il est égal à 1, cela correspond à des points alignés sur une droite de pente positive.</p>
+<p>Le coefficient de corrélation mesure <u><strong>l’intensité de la linéarité de la relation</strong></u> entre les observations. Une corrélation nulle ne garantit pas l’absence de tout lien mais indique l’absence de relation linéaire.</p>
+</section>
+<section id="modèle-linéaire-simple-droite-des-moindres-carrés" class="level4">
+<h4 class="anchored" data-anchor-id="modèle-linéaire-simple-droite-des-moindres-carrés">Modèle linéaire simple : droite des moindres carrés</h4>
+<p>La fonction lm() permet d’obtenir la droite de régression.</p>
+<p>Le coefficient de détermination R² est le rapport entre la variance des valeurs ajustées et la variance des valeurs de Y. C’est un rapport compris entre 0 et 1. Il s’agit de la variance des valeurs ajustées (fitted values)&nbsp; divisée par la variance des valeurs observées.</p>
+</section>
+</section>
+<section id="qualitatif-x-qualitatif" class="level3">
+<h3 class="anchored" data-anchor-id="qualitatif-x-qualitatif">Qualitatif x Qualitatif</h3>
+<section id="tableau-de-contingence" class="level4">
+<h4 class="anchored" data-anchor-id="tableau-de-contingence">Tableau de contingence</h4>
+<p>On résume les données dans le <u><strong>tableau de contingence</strong></u>, tableau qui regroupe les effectifs observés dans chaque croisement de modalités.</p>
+<p>En appliquant la somme par ligne et par colonne on obtient les distributions de X et Y séparément. Les effectifs correspondant sont ceux des distributions marginales (univariées) des variables.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>iris<span class="sc">$</span>Taille <span class="ot">&lt;-</span> <span class="fu">as.factor</span>(<span class="fu">ifelse</span>(iris<span class="sc">$</span>Sepal.Length <span class="sc">&gt;</span> <span class="fu">mean</span>(iris<span class="sc">$</span>Sepal.Length), <span class="st">"Grande sépale"</span>, <span class="st">"Petite sépale"</span>)) </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>tab_contingence <span class="ot">&lt;-</span> <span class="fu">table</span>(iris<span class="sc">$</span>Species, iris<span class="sc">$</span>Taille) </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="fu">apply</span>(tab_contingence, <span class="at">FUN=</span>sum, <span class="at">MARGIN=</span><span class="dv">1</span>) <span class="co"># ou MARGIN = 2</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    setosa versicolor  virginica 
+        50         50         50 </code></pre>
+</div>
+</div>
+<p>On peut représenter les <u><strong>diagrammes en barres</strong></u> associés à chacune d’elles.</p>
+</section>
+<section id="distributions-conditionnelles" class="level4">
+<h4 class="anchored" data-anchor-id="distributions-conditionnelles">Distributions conditionnelles</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(tab_contingence, <span class="at">margin =</span> <span class="dv">2</span>), <span class="dv">1</span>) <span class="co"># ou margin = 1 pour la distribution selon les lignes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>            
+             Grande sépale Petite sépale
+  setosa               0.0          62.5
+  versicolor          37.1          30.0
+  virginica           62.9           7.5</code></pre>
+</div>
+</div>
+<p>On peut représenter les <u><strong>tuyaux d’orgues</strong></u> associés.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="fu">round</span>(<span class="dv">100</span> <span class="sc">*</span> <span class="fu">prop.table</span>(tab_contingence, <span class="at">margin =</span> <span class="dv">2</span>), <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="statistiques_descriptives_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="chi²-mesurer-le-lien-entre-les-variables" class="level4">
+<h4 class="anchored" data-anchor-id="chi²-mesurer-le-lien-entre-les-variables">Chi² : mesurer le lien entre les variables</h4>
+<p>On quantifie le lien entre les variables en mesurant l’écart aux données avec une situation conceptuelle d’absence de lien que l’on appelle hypothèse d’indépendance des données&nbsp;:</p>
+<ul>
+<li><p>H0 est l’hypothèse d’indépendance</p></li>
+<li><p>H1 est l’hypothèse de dépendance</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">chisq.test</span>(tab_contingence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Pearson's Chi-squared test
+
+data:  tab_contingence
+X-squared = 78.643, df = 2, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p>p-value&nbsp;: probabilité d’obtenir ce résultat si le jeu de données était indépendant. On prend le plus souvent la limite de 5% pour rejeter l’hypothèse d’indépendance. Dans l’exemple ci-dessus, on rejette l’hypothèse de l’indépendance entre le fait d’avoir une grande ou une petite sépale et l’espèce d’iris.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
