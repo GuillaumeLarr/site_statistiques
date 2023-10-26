@@ -1,6 +1,0 @@
----
-title: "Analyses factorielles"
-editor: source
----
-
-
