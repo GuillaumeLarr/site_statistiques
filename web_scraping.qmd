@@ -3,3 +3,140 @@ title: "Web scraping"
 format: html
 editor: visual
 ---
+
+Le web scraping nécessite d'utiliser le package rvest.
+
+```{r message=FALSE}
+library(tidyverse)
+library(rvest)
+```
+
+## Récupération simple
+
+Pour obtenir un élément sur une page :
+
+```{r}
+url <- read_html("https://www.pokekalos.fr/pokedex/pokemongo/index.html")
+```
+
+```{r}
+noms <- url %>% 
+  html_nodes(".pkgo-header") %>% 
+  html_text()
+noms[1:10]
+```
+
+Pour obtenir un tableau :
+
+```{r}
+wiki <- read_html("https://fr.wikipedia.org/wiki/R%C3%A9gion_fran%C3%A7aise")
+```
+
+```{r}
+tableaux <- wiki %>%    
+  html_nodes("table") %>%   
+  html_table()
+```
+
+```{r}
+tableau_region <- tableaux[[6]] 
+head(tableau_region, 5)
+```
+
+## Méthode de crawling
+
+Si on veut récupérer des informations qui sont dans une page "complémentaire" :
+
+```{r}
+poke_links <- url %>% 
+  html_nodes(".pokemonlink") %>% 
+  html_attr("href") %>% 
+  paste("https://www.pokekalos.fr", ., sep = "")
+poke_links[1:10]
+```
+
+Afin d'obtenir les informations contenues sur ces pages, on peut procéder de la sorte :
+
+```{r}
+get_data <- function(links){
+  Sys.sleep(0.5)
+  page <- read_html(links)
+  restmp <- list()
+  restmp$numero = page %>% html_nodes(".message+ .bloc-principal-dex .bloc-dex:nth-child(1) .description") %>% html_text() %>% paste(collapse = ";")
+  restmp$nom = page %>% html_nodes(".mb-0") %>% html_text() %>% paste(collapse = ";")
+  restmp$femelle = page %>% html_nodes(".description div:nth-child(1)") %>% html_text() %>% paste(collapse = ";")
+  restmp$PV = page %>% html_nodes(".column4:nth-child(1) span") %>% html_text() %>% paste(collapse = ";")
+  restmp$ATK = page %>% html_nodes(".column4:nth-child(2) span") %>% html_text() %>% paste(collapse = ";")
+  restmp$DEF = page %>% html_nodes(".column4~ .column4+ .column4 span") %>% html_text() %>% paste(collapse = ";")
+  restmp$taille = page %>% html_nodes(".bloc-principal-dex:nth-child(8) .bloc-dex:nth-child(1) .description") %>% html_text() %>% paste(collapse = ";")
+  restmp$poids = page %>% html_nodes(".bloc-principal-dex:nth-child(8) .bloc-dex+ .bloc-dex .description") %>% html_text() %>% paste(collapse = ";")
+  restmp$niv15 = page %>% html_nodes(".bloc-principal-dex:nth-child(5) .bloc-dex:nth-child(1) .description") %>% html_text() %>% paste(collapse = ";")
+  restmp$niv30 = page %>% html_nodes(".bloc-principal-dex:nth-child(5) .bloc-dex:nth-child(4) .description") %>% html_text() %>% paste(collapse = ";")
+  return(restmp)
+}
+```
+
+```{r}
+#df <- sapply(X = poke_links, FUN = get_data)
+```
+
+```{r}
+#tdf <- t(df)
+
+#tdf <- as_tibble(tdf)
+
+#tdf <- tdf %>%
+#  mutate(numero = as.numeric(str_extract(numero, "\\d+")),
+#         nom = as.character(nom),
+#         femelle = as.numeric(str_extract(femelle, "\\d+\\.?\\d*")),
+#         PV = as.numeric(str_extract(PV, "\\d+")),
+#         ATK = as.numeric(str_extract(ATK, "\\d+")),
+#         DEF = as.numeric(str_extract(DEF, "\\d+")),
+#         taille = as.numeric(str_extract(taille, "\\d+\\.?\\d*")),
+#         poids = as.numeric(str_extract(poids, "\\d+\\.?\\d*")),
+#         niv15 = as.numeric(str_extract(niv15, "\\d+")),
+#         niv30 = as.numeric(str_extract(niv30, "\\d+")))
+
+# head(tdf, 10)
+```
+
+## Application alternative (évaluations de ramens)
+
+Le site n'est plus organisé de la bonne façon mais les lignes de code restent intéressantes.
+
+```{r}
+# ramen_list <- read_html("https://www.theramenrater.com/resources-2/the-list/")
+
+# How the original data was (probably) created
+#ramen_reviews <- ramen_list %>%
+#  html_node("#myTable") %>%
+#  html_table() %>%
+#  tbl_df() %>%
+#  janitor::clean_names() %>%
+#  select(-t)
+```
+
+```{r}
+#review_links <- read_html("https://www.theramenrater.com/resources-2/the-list/") %>%
+#  html_nodes("#myTable a")
+
+#reviews <- tibble(review_number = parse_number(html_text(review_links)),
+#                  link = html_attr(review_links, "href"))
+```
+
+```{r}
+# page <- read_html("https://www.theramenrater.com/2019/05/23/3180-yum-yum-moo-deng/")
+# 
+# get_review_text <- function(url) {
+#   message(url)
+#   
+#   read_html(url) %>%
+#     html_nodes(".entry-content > p") %>%
+#     html_text() %>%
+#     str_subset(".")
+# }
+# 
+# review_text <- reviews %>%
+#   head(5) %>%
+#   mutate(text = map(link, possibly(get_review_text, character(0), quiet = FALSE)))
+```
