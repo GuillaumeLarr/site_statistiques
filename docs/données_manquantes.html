@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Site_quarto - Gestion des données manquantes</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Site_quarto</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html" rel="" target="">
+ <span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./statistiques_descriptives.html" rel="" target="">
+ <span class="menu-text">Statistiques descriptives</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./analyses_factorielles.html" rel="" target="">
+ <span class="menu-text">Analyses factorielles</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./classification_NS.html" rel="" target="">
+ <span class="menu-text">Classification non supervisée</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./regression_linéaire.html" rel="" target="">
+ <span class="menu-text">Régression linéaire</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./regression_logistique.html" rel="" target="">
+ <span class="menu-text">Régression logistique</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./données_manquantes.html" rel="" target="" aria-current="page">
+ <span class="menu-text">Gestion des données manquantes</span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools ms-auto">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link active" data-scroll-target="#synthèse">Synthèse</a></li>
+  <li><a href="#identification-des-valeurs-manquantes" id="toc-identification-des-valeurs-manquantes" class="nav-link" data-scroll-target="#identification-des-valeurs-manquantes">Identification des valeurs manquantes</a></li>
+  <li><a href="#visualisation-des-données-manquantes" id="toc-visualisation-des-données-manquantes" class="nav-link" data-scroll-target="#visualisation-des-données-manquantes">Visualisation des données manquantes</a>
+  <ul class="collapse">
+  <li><a href="#informations-sur-les-variables" id="toc-informations-sur-les-variables" class="nav-link" data-scroll-target="#informations-sur-les-variables">Informations sur les variables</a></li>
+  <li><a href="#informations-sur-les-individus" id="toc-informations-sur-les-individus" class="nav-link" data-scroll-target="#informations-sur-les-individus">Informations sur les individus</a></li>
+  </ul></li>
+  <li><a href="#imputer-les-valeurs-manquantes" id="toc-imputer-les-valeurs-manquantes" class="nav-link" data-scroll-target="#imputer-les-valeurs-manquantes">Imputer les valeurs manquantes</a>
+  <ul class="collapse">
+  <li><a href="#imputation-simple" id="toc-imputation-simple" class="nav-link" data-scroll-target="#imputation-simple">Imputation simple</a></li>
+  </ul></li>
+  <li><a href="#imputation-multiple" id="toc-imputation-multiple" class="nav-link" data-scroll-target="#imputation-multiple">Imputation multiple</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Gestion des données manquantes</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<ul>
+<li><p>Le % de données manquantes n’est pas lue plus important. Il est nécessaire de comprendre les relations entre les variables. L’imputation d’un jeu de données ayant des variables fortement corrélées et un grand nombre de données manquantes sera de bonne qualité, à l’inverse de l’imputation d’un jeu de données avec peu de données manquante mais beaucoup de bruit.</p></li>
+<li><p>L’imputation simple ne tient pas compte de la variabilité induite par les données manquantes</p></li>
+<li><p>L’imputation multiple permet de tenir compte de cette variabilité et permet de mesurer précisément la variabilité des prédictions.</p></li>
+</ul>
+</section>
+<section id="identification-des-valeurs-manquantes" class="level2">
+<h2 class="anchored" data-anchor-id="identification-des-valeurs-manquantes">Identification des valeurs manquantes</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>iris[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="fu">nrow</span>(iris), <span class="at">by =</span> <span class="dv">10</span>), <span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Les fonctions de base :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>isna <span class="ot">&lt;-</span> <span class="fu">is.na</span>(iris) <span class="co"># Donne un vecteur de booléens</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(iris) <span class="co"># Oui / Non au moins une valeur manquante est présente</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris) <span class="co"># Montre les valeurs manquantes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.200   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.350   Median :1.300  
+ Mean   :5.843   Mean   :3.055   Mean   :3.758   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+                 NA's   :15                                     
+       Species  
+ setosa    :50  
+ versicolor:50  
+ virginica :50  
+                
+                
+                
+                </code></pre>
+</div>
+</div>
+<p>Ces fonctions permettent de manipuler facilement les données manquantes :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>iris2 <span class="ot">&lt;-</span> iris[<span class="sc">-</span><span class="fu">which</span>(<span class="fu">is.na</span>(iris<span class="sc">$</span>Sepal.Width)),]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(iris2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 135   5</code></pre>
+</div>
+</div>
+<p>Pour supprimer l’ensemble des valeurs manquantes, on peut aussi utiliser la fonction na.omit.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>iris3 <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(iris)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 135   5</code></pre>
+</div>
+</div>
+<p>Dans le tidyverse, d’autres fonctions sont disponibles :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>iris4 <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(iris4)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 135   5</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>iris5 <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(Sepal.Width, <span class="at">.direction =</span> <span class="st">"up"</span>) <span class="co"># remplace les valeurs manquantes avec la valeur du dessous</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">anyNA</span>(iris5)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] FALSE</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>iris6 <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">replace_na</span>(<span class="fu">list</span>(<span class="at">Sepal.Width =</span> <span class="dv">10</span>)) <span class="co"># attention, il faut une liste de valeurs</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualisation-des-données-manquantes" class="level2">
+<h2 class="anchored" data-anchor-id="visualisation-des-données-manquantes">Visualisation des données manquantes</h2>
+<p>L’objectif est de répondre aux questions suivantes :</p>
+<ul>
+<li><p>Quelle est la proportion de données manquantes ?</p></li>
+<li><p>Quel est le type de données manquantes ?</p></li>
+<li><p>Existe-t-il une dépendance dans les données manquantes ?</p></li>
+</ul>
+<p>Les données manquantes relèvent de plusieurs types :</p>
+<ul>
+<li><p>MCAR - Missing completely at random. La probabilité qu’une observation soit manquante ne dépend pas des mesures observées ou non observées.</p></li>
+<li><p>MAR - Missing at random. La probabilité qu’une observation soit manquante dépend uniquement des données observées (ex : dans un questionnaire, la probabilité que la donnée sur le poids soit manquante dépend du sexe).</p></li>
+<li><p>MNAR - Mission not at random. La probabilité qu’une observation soit manquante dépend des données non observées et n’est pas aléatoire (ex : les personnes en sur-poids ne donnent pas leurs poids : les valeurs extrêmes sont absentes).</p></li>
+</ul>
+<p>Les packages naniar et VIM aident à visualiser les données manquantes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>iris_NA <span class="ot">&lt;-</span> iris</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>iris_NA[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="fu">nrow</span>(iris), <span class="at">by =</span> <span class="dv">3</span>), <span class="dv">4</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>iris_NA[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="fu">nrow</span>(iris), <span class="at">by =</span> <span class="dv">6</span>), <span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>iris_NA[<span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="fu">nrow</span>(iris), <span class="at">by =</span> <span class="dv">25</span>), <span class="dv">5</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris_NA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.200   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.300   Median :1.300  
+ Mean   :5.843   Mean   :3.055   Mean   :3.774   Mean   :1.209  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+                 NA's   :15      NA's   :25      NA's   :50     
+       Species  
+ setosa    :48  
+ versicolor:48  
+ virginica :48  
+ NA's      : 6  
+                
+                
+                </code></pre>
+</div>
+</div>
+<p>Le package naniar facilite l’identification des valeurs manquantes :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">pct_miss</span>(iris_NA) <span class="co"># pct de données manquantes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.8</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">n_miss</span>(iris_NA) <span class="co"># nb de données manquantes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 96</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">n_complete</span>(iris_NA) <span class="co"># nb de données complètes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 654</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">pct_complete</span>(iris_NA) <span class="co"># pct de données complètes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 87.2</code></pre>
+</div>
+</div>
+<section id="informations-sur-les-variables" class="level3">
+<h3 class="anchored" data-anchor-id="informations-sur-les-variables">Informations sur les variables</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">miss_var_summary</span>(iris_NA) <span class="co"># détail des informations en fonction des variables</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 5 × 3
+  variable     n_miss pct_miss
+  &lt;chr&gt;         &lt;int&gt;    &lt;dbl&gt;
+1 Petal.Width      50     33.3
+2 Petal.Length     25     16.7
+3 Sepal.Width      15     10  
+4 Species           6      4  
+5 Sepal.Length      0      0  </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_var</span>(iris_NA, <span class="at">show_pct =</span> <span class="cn">TRUE</span>) <span class="sc">+</span> <span class="fu">ylim</span>(<span class="dv">0</span>, <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="informations-sur-les-individus" class="level3">
+<h3 class="anchored" data-anchor-id="informations-sur-les-individus">Informations sur les individus</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">miss_case_summary</span>(iris_NA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 150 × 3
+    case n_miss pct_miss
+   &lt;int&gt;  &lt;int&gt;    &lt;dbl&gt;
+ 1     1      4       80
+ 2    31      3       60
+ 3    61      3       60
+ 4    91      3       60
+ 5   121      3       60
+ 6     7      2       40
+ 7    13      2       40
+ 8    19      2       40
+ 9    25      2       40
+10    37      2       40
+# ℹ 140 more rows</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">gg_miss_case</span>(iris_NA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">prop_miss_row</span>(iris_NA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  [1] 0.8 0.0 0.0 0.2 0.0 0.0 0.4 0.0 0.0 0.2 0.2 0.0 0.4 0.0 0.0 0.2 0.0 0.0
+ [19] 0.4 0.0 0.2 0.2 0.0 0.0 0.4 0.2 0.0 0.2 0.0 0.0 0.6 0.0 0.0 0.2 0.0 0.0
+ [37] 0.4 0.0 0.0 0.2 0.2 0.0 0.4 0.0 0.0 0.2 0.0 0.0 0.4 0.0 0.4 0.2 0.0 0.0
+ [55] 0.4 0.0 0.0 0.2 0.0 0.0 0.6 0.0 0.0 0.2 0.0 0.0 0.4 0.0 0.0 0.2 0.2 0.0
+ [73] 0.4 0.0 0.0 0.4 0.0 0.0 0.4 0.0 0.2 0.2 0.0 0.0 0.4 0.0 0.0 0.2 0.0 0.0
+ [91] 0.6 0.0 0.0 0.2 0.0 0.0 0.4 0.0 0.0 0.2 0.4 0.0 0.4 0.0 0.0 0.2 0.0 0.0
+[109] 0.4 0.0 0.2 0.2 0.0 0.0 0.4 0.0 0.0 0.2 0.0 0.0 0.6 0.0 0.0 0.2 0.0 0.2
+[127] 0.4 0.0 0.0 0.2 0.2 0.0 0.4 0.0 0.0 0.2 0.0 0.0 0.4 0.0 0.2 0.2 0.0 0.0
+[145] 0.4 0.0 0.0 0.2 0.0 0.0</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(iris_NA)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-19-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>naniar<span class="sc">::</span><span class="fu">vis_miss</span>(iris_NA, <span class="at">cluster =</span> <span class="cn">TRUE</span>) <span class="co"># On peut regrouper les données pour essayer de trouver les relations entre les données manquantes</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Le package VIM offre d’autres solutions de visualisation :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>VIM<span class="sc">::</span><span class="fu">aggr</span>(iris_NA, <span class="at">sortVAR =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-21-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>iris_NA <span class="sc">%&gt;%</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Sepal.Length, Petal.Width) <span class="sc">%&gt;%</span> </span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>  VIM<span class="sc">::</span><span class="fu">marginplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-22-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>La visualisation et l’analyse des données manquantes peut aussi être réalisée en mobilisant une ACM :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>data_miss <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="fu">is.na</span>(iris_NA))</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>data_miss <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X=</span>data_miss, <span class="at">FUN=</span><span class="cf">function</span>(x) <span class="cf">if</span>(x) <span class="st">"m"</span> <span class="cf">else</span> <span class="st">"o"</span>, <span class="at">MARGIN=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>res.mca <span class="ot">&lt;-</span> FactoMineR<span class="sc">::</span><span class="fu">MCA</span>(data_miss, <span class="at">graph =</span> F)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.mca, <span class="at">invis =</span> <span class="st">"ind"</span>, <span class="at">title =</span> <span class="st">"graphe des modalités"</span>, <span class="at">cex  =</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-23-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="imputer-les-valeurs-manquantes" class="level2">
+<h2 class="anchored" data-anchor-id="imputer-les-valeurs-manquantes">Imputer les valeurs manquantes</h2>
+<p>La suppression des données manquantes est envisageable si le nombre d’observations complètes est suffisant (reste à définir un seuil acceptable…).</p>
+<p>L’imputation consiste à compléter le jeu de données :</p>
+<ul>
+<li><p>Imputation simple : prévoir les valeurs manquantes pour une analyse exploratoire.</p></li>
+<li><p>Imputation multiple : faire de l’inférence.</p></li>
+</ul>
+<section id="imputation-simple" class="level3">
+<h3 class="anchored" data-anchor-id="imputation-simple">Imputation simple</h3>
+<p>L’imputation peut être réalisée en remplaçant les valeurs manquantes par la moyenne des valeurs observées de la variable.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>iris_NA <span class="sc">%&gt;%</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_Sepal.Width =</span> <span class="fu">replace_na</span>(Sepal.Width, <span class="fu">mean</span>(Sepal.Width, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Sepal.Width, new_Sepal.Width) <span class="sc">%&gt;%</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Width    new_Sepal.Width
+ Min.   :2.200   Min.   :2.200  
+ 1st Qu.:2.800   1st Qu.:2.800  
+ Median :3.000   Median :3.000  
+ Mean   :3.055   Mean   :3.055  
+ 3rd Qu.:3.300   3rd Qu.:3.275  
+ Max.   :4.400   Max.   :4.400  
+ NA's   :15                     </code></pre>
+</div>
+</div>
+<p>Cette méthode entraîne néanmoins une déformation de la distribution des valeurs., Une autre méthode consiste à imputer en réalisant une ACP :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>nb <span class="ot">&lt;-</span> missMDA<span class="sc">::</span><span class="fu">estim_ncpPCA</span>(iris_NA[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],<span class="at">ncp.max=</span><span class="dv">5</span>) <span class="co"># estimation du nb de composantes</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>dat.comp <span class="ot">&lt;-</span> missMDA<span class="sc">::</span><span class="fu">imputePCA</span>(iris_NA[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],<span class="at">ncp=</span>nb<span class="sc">$</span>ncp) <span class="co"># imputation du jeu de données</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat.comp<span class="sc">$</span>completeObs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>     Sepal.Length Sepal.Width Petal.Length Petal.Width
+[1,]          5.1    3.109677      2.30904   0.6069165
+[2,]          4.9    3.000000      1.40000   0.2000000
+[3,]          4.7    3.200000      1.30000   0.2000000
+[4,]          4.6    3.100000      1.50000   0.2514280
+[5,]          5.0    3.600000      1.40000   0.2000000
+[6,]          5.4    3.900000      1.70000   0.4000000</code></pre>
+</div>
+</div>
+<p>La fonction imputeMCA permet de faire l’imputation avec des données qualitatives et imputeFAMD avec des données mixtes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>nb2 <span class="ot">&lt;-</span> missMDA<span class="sc">::</span><span class="fu">estim_ncpFAMD</span>(iris_NA, <span class="at">ncp.max=</span><span class="dv">5</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="co"># estimation du nb de composantes</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>dat.comp2 <span class="ot">&lt;-</span> missMDA<span class="sc">::</span><span class="fu">imputeFAMD</span>(iris_NA,<span class="at">ncp=</span>nb2<span class="sc">$</span>ncp) <span class="co"># imputation du jeu de données</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dat.comp2<span class="sc">$</span>completeObs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+1          5.1    3.091835     2.382436   0.6625403  setosa
+2          4.9    3.000000     1.400000   0.2000000  setosa
+3          4.7    3.200000     1.300000   0.2000000  setosa
+4          4.6    3.100000     1.500000   0.2041850  setosa
+5          5.0    3.600000     1.400000   0.2000000  setosa
+6          5.4    3.900000     1.700000   0.4000000  setosa</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dat.comp2<span class="sc">$</span>completeObs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width    
+ Min.   :4.300   Min.   :2.200   Min.   :1.000   Min.   :0.1000  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.3284  
+ Median :5.800   Median :3.000   Median :4.200   Median :1.3000  
+ Mean   :5.843   Mean   :3.060   Mean   :3.747   Mean   :1.1969  
+ 3rd Qu.:6.400   3rd Qu.:3.356   3rd Qu.:5.100   3rd Qu.:1.8590  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.5000  
+       Species  
+ setosa    :50  
+ versicolor:49  
+ virginica :51  
+                
+                
+                </code></pre>
+</div>
+</div>
+<p>L’imputation peut également être réalisée par imputation aléatoire :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>iris_missforest <span class="ot">&lt;-</span> missForest<span class="sc">::</span><span class="fu">missForest</span>(iris_NA)</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(iris_missforest<span class="sc">$</span>ximp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length    Sepal.Width     Petal.Length    Petal.Width   
+ Min.   :4.300   Min.   :2.200   Min.   :1.000   Min.   :0.100  
+ 1st Qu.:5.100   1st Qu.:2.800   1st Qu.:1.600   1st Qu.:0.300  
+ Median :5.800   Median :3.000   Median :4.200   Median :1.300  
+ Mean   :5.843   Mean   :3.054   Mean   :3.756   Mean   :1.199  
+ 3rd Qu.:6.400   3rd Qu.:3.300   3rd Qu.:5.100   3rd Qu.:1.800  
+ Max.   :7.900   Max.   :4.400   Max.   :6.900   Max.   :2.500  
+       Species  
+ setosa    :49  
+ versicolor:51  
+ virginica :50  
+                
+                
+                </code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="imputation-multiple" class="level2">
+<h2 class="anchored" data-anchor-id="imputation-multiple">Imputation multiple</h2>
+<p>L’objectif est de générer plusieurs tableaux de données imputés pour réfleter la variance de prédiction des valeurs manquantes.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>res.mipca <span class="ot">&lt;-</span> missMDA<span class="sc">::</span><span class="fu">MIPCA</span>(iris_NA[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">scale =</span> <span class="cn">TRUE</span>, <span class="at">ncp =</span> nb<span class="sc">$</span>ncp, <span class="at">nboot =</span> <span class="dv">100</span>)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(res.mipca)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-4.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$PlotIndProc</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-5.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$PlotDim</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-6.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$PlotIndSupp</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-7.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+$PlotVar</code></pre>
+</div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-28-8.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>Le schéma bleu permet de voir si le % de données manquantes impacte la qualité de l’imputation.</p>
+<p>La taille des ellipses et la dispersion des points des variables permettent de savoir si on peut poursuivre l’analyse des tableaux imputés.</p>
+<p>On peut utiliser l’imputation mutlple avec hypothèse de distribution jointe gausienne :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>dat.amelia <span class="ot">&lt;-</span> Amelia<span class="sc">::</span><span class="fu">amelia</span>(iris_NA[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>], <span class="at">m=</span><span class="dv">100</span>, <span class="at">p2s =</span> <span class="dv">0</span>) </span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>Amelia<span class="sc">::</span><span class="fu">compare.density</span>(dat.amelia,<span class="at">var=</span><span class="st">"Petal.Length"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="données_manquantes_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p>On peut aussi utiliser la méthode d’imputation multiple selon le modèle conditionnel :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>mice_mice <span class="ot">&lt;-</span> mice<span class="sc">::</span><span class="fu">mice</span>(iris_NA, <span class="at">m=</span><span class="dv">5</span>, <span class="at">method=</span><span class="st">"pmm"</span>, <span class="at">printFlag =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(mice<span class="sc">::</span><span class="fu">complete</span>(mice_mice,<span class="dv">1</span>), <span class="dv">5</span>) <span class="co"># pour visualiser le 1er taleau généré</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Sepal.Length Sepal.Width Petal.Length Petal.Width   Species
+1          5.1         2.5          5.1         2.3 virginica
+2          4.9         3.0          1.4         0.2    setosa
+3          4.7         3.2          1.3         0.2    setosa
+4          4.6         3.1          1.5         0.2    setosa
+5          5.0         3.6          1.4         0.2    setosa</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>mice_mice<span class="sc">$</span>meth <span class="co"># permet de visualiser les méthodes utilisées</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Sepal.Length  Sepal.Width Petal.Length  Petal.Width      Species 
+          ""        "pmm"        "pmm"        "pmm"        "pmm" </code></pre>
+</div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

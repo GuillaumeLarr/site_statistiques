@@ -7,6 +7,46 @@ editor: source
 library(tidyverse)
 ```
 
+## Synthèse
+
+### Pour les statistiques univariées
+
++-------------------------+--------------------------------------------+-------------------------------------------------------+
+| Type de variable        | Mode de représentation                     | Indicateurs numériques                                |
++=========================+============================================+=======================================================+
+| Qualitatives            | Diagramme en barres ou circulaire          | Effectifs en fonction des modalités                   |
++-------------------------+--------------------------------------------+-------------------------------------------------------+
+| Quantitatives discrètes | Diagrammes en bâtons ou boîte à moustaches | Indicateurs de tendance centrale :                    |
+|                         |                                            |                                                       |
+|                         |                                            | -   Moyenne                                           |
+|                         |                                            |                                                       |
+|                         |                                            | -   Médiane                                           |
+|                         |                                            |                                                       |
+|                         |                                            | -   Mode                                              |
+|                         |                                            |                                                       |
+|                         |                                            | Indicateurs de dispersion :                           |
+|                         |                                            |                                                       |
+|                         |                                            | -   Variance                                          |
+|                         |                                            |                                                       |
+|                         |                                            | -   Ecart-type (même unité que les données initiales) |
++-------------------------+--------------------------------------------+-------------------------------------------------------+
+| Quantitatives continues | Histogramme ou boîte à moustaches          | Idem                                                  |
++-------------------------+--------------------------------------------+-------------------------------------------------------+
+
+### Pour les statistiques bivariées
+
++-----------------------------+-------------------------------------------+------------------------------------------------------------------------------------------------+
+| Type de combinaison         | Mode de représentation                    | Comparaison numérique                                                                          |
++=============================+===========================================+================================================================================================+
+| Qualitative x Quantitative  | Comparaison de boîtes à moustaches        | -   Décomposition de variance                                                                  |
+|                             |                                           |                                                                                                |
+|                             |                                           | -   Rapport de corrélation                                                                     |
++-----------------------------+-------------------------------------------+------------------------------------------------------------------------------------------------+
+| Quantitative x Quantitative | Nuage de points                           | Covariance et corrélation (moyenne des produits termes à termes des données centrées-réduites) |
++-----------------------------+-------------------------------------------+------------------------------------------------------------------------------------------------+
+| Qualitative x Qualitative   | Diagrammes en barres pour chaque modalité | Test du chi² (écart à l'indépendance)                                                          |
++-----------------------------+-------------------------------------------+------------------------------------------------------------------------------------------------+
+
 ## Eléments de vocabulaire
 
 -   **Statistique inférentielle** = [**estimer**]{.underline} des informations sur une [**population**]{.underline} à partir d'un [**échantillon**]{.underline}.

@@ -1,0 +1,238 @@
+---
+title: "Gestion des données manquantes"
+format: html
+editor: visual
+---
+
+## Synthèse
+
+-   Le % de données manquantes n'est pas lue plus important. Il est nécessaire de comprendre les relations entre les variables. L'imputation d'un jeu de données ayant des variables fortement corrélées et un grand nombre de données manquantes sera de bonne qualité, à l'inverse de l'imputation d'un jeu de données avec peu de données manquante mais beaucoup de bruit.
+
+-   L'imputation simple ne tient pas compte de la variabilité induite par les données manquantes
+
+-   L'imputation multiple permet de tenir compte de cette variabilité et permet de mesurer précisément la variabilité des prédictions.
+
+## Identification des valeurs manquantes
+
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+```
+
+```{r}
+data(iris)
+iris[seq(from = 1, to = nrow(iris), by = 10), 2] <- NA
+```
+
+Les fonctions de base :
+
+```{r}
+isna <- is.na(iris) # Donne un vecteur de booléens
+anyNA(iris) # Oui / Non au moins une valeur manquante est présente
+summary(iris) # Montre les valeurs manquantes
+```
+
+Ces fonctions permettent de manipuler facilement les données manquantes :
+
+```{r}
+iris2 <- iris[-which(is.na(iris$Sepal.Width)),]
+anyNA(iris2)
+dim(iris2)
+```
+
+Pour supprimer l'ensemble des valeurs manquantes, on peut aussi utiliser la fonction na.omit.
+
+```{r}
+iris3 <- na.omit(iris)
+dim(iris3)
+```
+
+Dans le tidyverse, d'autres fonctions sont disponibles :
+
+```{r}
+iris4 <- iris %>% 
+  drop_na()
+dim(iris4)
+```
+
+```{r}
+iris5 <- iris %>% 
+  fill(Sepal.Width, .direction = "up") # remplace les valeurs manquantes avec la valeur du dessous
+anyNA(iris5)
+```
+
+```{r}
+iris6 <- iris %>%
+  replace_na(list(Sepal.Width = 10)) # attention, il faut une liste de valeurs
+```
+
+## Visualisation des données manquantes
+
+L'objectif est de répondre aux questions suivantes :
+
+-   Quelle est la proportion de données manquantes ?
+
+-   Quel est le type de données manquantes ?
+
+-   Existe-t-il une dépendance dans les données manquantes ?
+
+Les données manquantes relèvent de plusieurs types :
+
+-   MCAR - Missing completely at random. La probabilité qu'une observation soit manquante ne dépend pas des mesures observées ou non observées.
+
+-   MAR - Missing at random. La probabilité qu'une observation soit manquante dépend uniquement des données observées (ex : dans un questionnaire, la probabilité que la donnée sur le poids soit manquante dépend du sexe).
+
+-   MNAR - Mission not at random. La probabilité qu'une observation soit manquante dépend des données non observées et n'est pas aléatoire (ex : les personnes en sur-poids ne donnent pas leurs poids : les valeurs extrêmes sont absentes).
+
+Les packages naniar et VIM aident à visualiser les données manquantes.
+
+```{r}
+iris_NA <- iris
+iris_NA[seq(from = 1, to = nrow(iris), by = 3), 4] <- NA
+iris_NA[seq(from = 1, to = nrow(iris), by = 6), 3] <- NA
+iris_NA[seq(from = 1, to = nrow(iris), by = 25), 5] <- NA
+summary(iris_NA)
+```
+
+Le package naniar facilite l'identification des valeurs manquantes :
+
+```{r}
+naniar::pct_miss(iris_NA) # pct de données manquantes
+```
+
+```{r}
+naniar::n_miss(iris_NA) # nb de données manquantes
+```
+
+```{r}
+naniar::n_complete(iris_NA) # nb de données complètes
+```
+
+```{r}
+naniar::pct_complete(iris_NA) # pct de données complètes
+```
+
+### Informations sur les variables
+
+```{r}
+naniar::miss_var_summary(iris_NA) # détail des informations en fonction des variables
+```
+
+```{r}
+naniar::gg_miss_var(iris_NA, show_pct = TRUE) + ylim(0, 100)
+```
+
+### Informations sur les individus
+
+```{r}
+naniar::miss_case_summary(iris_NA)
+```
+
+```{r}
+naniar::gg_miss_case(iris_NA)
+```
+
+```{r}
+naniar::prop_miss_row(iris_NA)
+```
+
+```{r}
+naniar::vis_miss(iris_NA)
+```
+
+```{r}
+naniar::vis_miss(iris_NA, cluster = TRUE) # On peut regrouper les données pour essayer de trouver les relations entre les données manquantes
+```
+
+Le package VIM offre d'autres solutions de visualisation :
+
+```{r}
+VIM::aggr(iris_NA, sortVAR = TRUE)
+```
+
+```{r}
+iris_NA %>% 
+  select(Sepal.Length, Petal.Width) %>% 
+  VIM::marginplot()
+```
+
+La visualisation et l'analyse des données manquantes peut aussi être réalisée en mobilisant une ACM :
+
+```{r}
+data_miss <- data.frame(is.na(iris_NA))
+data_miss <- apply(X=data_miss, FUN=function(x) if(x) "m" else "o", MARGIN=c(1,2))
+res.mca <- FactoMineR::MCA(data_miss, graph = F)
+plot(res.mca, invis = "ind", title = "graphe des modalités", cex  = 0.5)
+```
+
+## Imputer les valeurs manquantes
+
+La suppression des données manquantes est envisageable si le nombre d'observations complètes est suffisant (reste à définir un seuil acceptable...).
+
+L'imputation consiste à compléter le jeu de données :
+
+-   Imputation simple : prévoir les valeurs manquantes pour une analyse exploratoire.
+
+-   Imputation multiple : faire de l'inférence.
+
+### Imputation simple
+
+L'imputation peut être réalisée en remplaçant les valeurs manquantes par la moyenne des valeurs observées de la variable.
+
+```{r}
+iris_NA %>% 
+  mutate(new_Sepal.Width = replace_na(Sepal.Width, mean(Sepal.Width, na.rm = TRUE))) %>% 
+  select(Sepal.Width, new_Sepal.Width) %>% 
+  summary()
+```
+
+Cette méthode entraîne néanmoins une déformation de la distribution des valeurs., Une autre méthode consiste à imputer en réalisant une ACP :
+
+```{r}
+nb <- missMDA::estim_ncpPCA(iris_NA[,1:4],ncp.max=5) # estimation du nb de composantes
+dat.comp <- missMDA::imputePCA(iris_NA[,1:4],ncp=nb$ncp) # imputation du jeu de données
+head(dat.comp$completeObs)
+```
+
+La fonction imputeMCA permet de faire l'imputation avec des données qualitatives et imputeFAMD avec des données mixtes.
+
+```{r}
+nb2 <- missMDA::estim_ncpFAMD(iris_NA, ncp.max=5, verbose = FALSE) # estimation du nb de composantes
+dat.comp2 <- missMDA::imputeFAMD(iris_NA,ncp=nb2$ncp) # imputation du jeu de données
+head(dat.comp2$completeObs)
+summary(dat.comp2$completeObs)
+```
+
+L'imputation peut également être réalisée par imputation aléatoire :
+
+```{r}
+iris_missforest <- missForest::missForest(iris_NA)
+summary(iris_missforest$ximp)
+```
+
+## Imputation multiple
+
+L'objectif est de générer plusieurs tableaux de données imputés pour réfleter la variance de prédiction des valeurs manquantes.
+
+```{r}
+res.mipca <- missMDA::MIPCA(iris_NA[1:4], scale = TRUE, ncp = nb$ncp, nboot = 100)
+plot(res.mipca)
+```
+
+Le schéma bleu permet de voir si le % de données manquantes impacte la qualité de l'imputation.
+
+La taille des ellipses et la dispersion des points des variables permettent de savoir si on peut poursuivre l'analyse des tableaux imputés.
+
+On peut utiliser l'imputation mutlple avec hypothèse de distribution jointe gausienne :
+
+```{r}
+dat.amelia <- Amelia::amelia(iris_NA[1:4], m=100, p2s = 0) 
+Amelia::compare.density(dat.amelia,var="Petal.Length")
+```
+
+On peut aussi utiliser la méthode d'imputation multiple selon le modèle conditionnel :
+
+```{r}
+mice_mice <- mice::mice(iris_NA, m=5, method="pmm", printFlag = FALSE)
+head(mice::complete(mice_mice,1), 5) # pour visualiser le 1er taleau généré
+mice_mice$meth # permet de visualiser les méthodes utilisées
+```

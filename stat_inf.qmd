@@ -1,0 +1,5 @@
+---
+title: "Statistiques inférentielles"
+format: html
+editor: visual
+---

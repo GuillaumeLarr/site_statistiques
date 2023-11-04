@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Site_quarto - Statistiques descriptives</title>
+<title>Statistiques - Statistiques descriptives</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container">
     <a class="navbar-brand" href="./index.html">
-    <span class="navbar-title">Site_quarto</span>
+    <span class="navbar-title">Statistiques</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -116,15 +116,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
     <a class="nav-link" href="./index.html" rel="" target="">
- <span class="menu-text">Home</span></a>
+ <span class="menu-text">Accueil</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link active" href="./statistiques_descriptives.html" rel="" target="" aria-current="page">
  <span class="menu-text">Statistiques descriptives</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="./stat_inf.html" rel="" target="">
+ <span class="menu-text">Statistiques inférentielles</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="./analyses_factorielles.html" rel="" target="">
  <span class="menu-text">Analyses factorielles</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./classification_NS.html" rel="" target="">
+ <span class="menu-text">Classification non supervisée</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./regression_linéaire.html" rel="" target="">
+ <span class="menu-text">Régression linéaire</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./regression_logistique.html" rel="" target="">
+ <span class="menu-text">Régression logistique</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./données_manquantes.html" rel="" target="">
+ <span class="menu-text">Gestion des données manquantes</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./web_scraping.html" rel="" target="">
+ <span class="menu-text">Web scraping</span></a>
   </li>  
 </ul>
             <div class="quarto-navbar-tools ms-auto">
@@ -142,7 +166,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#eléments-de-vocabulaire" id="toc-eléments-de-vocabulaire" class="nav-link active" data-scroll-target="#eléments-de-vocabulaire">Eléments de vocabulaire</a></li>
+  <li><a href="#synthèse" id="toc-synthèse" class="nav-link active" data-scroll-target="#synthèse">Synthèse</a>
+  <ul class="collapse">
+  <li><a href="#pour-les-statistiques-univariées" id="toc-pour-les-statistiques-univariées" class="nav-link" data-scroll-target="#pour-les-statistiques-univariées">Pour les statistiques univariées</a></li>
+  <li><a href="#pour-les-statistiques-bivariées" id="toc-pour-les-statistiques-bivariées" class="nav-link" data-scroll-target="#pour-les-statistiques-bivariées">Pour les statistiques bivariées</a></li>
+  </ul></li>
+  <li><a href="#eléments-de-vocabulaire" id="toc-eléments-de-vocabulaire" class="nav-link" data-scroll-target="#eléments-de-vocabulaire">Eléments de vocabulaire</a></li>
   <li><a href="#statistiques-descriptives-univariées" id="toc-statistiques-descriptives-univariées" class="nav-link" data-scroll-target="#statistiques-descriptives-univariées">Statistiques descriptives univariées</a>
   <ul class="collapse">
   <li><a href="#variables-qualitatives" id="toc-variables-qualitatives" class="nav-link" data-scroll-target="#variables-qualitatives">Variables qualitatives</a></li>
@@ -177,6 +206,90 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<section id="synthèse" class="level2">
+<h2 class="anchored" data-anchor-id="synthèse">Synthèse</h2>
+<section id="pour-les-statistiques-univariées" class="level3">
+<h3 class="anchored" data-anchor-id="pour-les-statistiques-univariées">Pour les statistiques univariées</h3>
+<table class="table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 35%">
+<col style="width: 43%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type de variable</th>
+<th>Mode de représentation</th>
+<th>Indicateurs numériques</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qualitatives</td>
+<td>Diagramme en barres ou circulaire</td>
+<td>Effectifs en fonction des modalités</td>
+</tr>
+<tr class="even">
+<td>Quantitatives discrètes</td>
+<td>Diagrammes en bâtons ou boîte à moustaches</td>
+<td><p>Indicateurs de tendance centrale :</p>
+<ul>
+<li><p>Moyenne</p></li>
+<li><p>Médiane</p></li>
+<li><p>Mode</p></li>
+</ul>
+<p>Indicateurs de dispersion :</p>
+<ul>
+<li><p>Variance</p></li>
+<li><p>Ecart-type (même unité que les données initiales)</p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td>Quantitatives continues</td>
+<td>Histogramme ou boîte à moustaches</td>
+<td>Idem</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="pour-les-statistiques-bivariées" class="level3">
+<h3 class="anchored" data-anchor-id="pour-les-statistiques-bivariées">Pour les statistiques bivariées</h3>
+<table class="table">
+<colgroup>
+<col style="width: 17%">
+<col style="width: 25%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Type de combinaison</th>
+<th>Mode de représentation</th>
+<th>Comparaison numérique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Qualitative x Quantitative</td>
+<td>Comparaison de boîtes à moustaches</td>
+<td><ul>
+<li><p>Décomposition de variance</p></li>
+<li><p>Rapport de corrélation</p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td>Quantitative x Quantitative</td>
+<td>Nuage de points</td>
+<td>Covariance et corrélation (moyenne des produits termes à termes des données centrées-réduites)</td>
+</tr>
+<tr class="odd">
+<td>Qualitative x Qualitative</td>
+<td>Diagrammes en barres pour chaque modalité</td>
+<td>Test du chi² (écart à l’indépendance)</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
 <section id="eléments-de-vocabulaire" class="level2">
 <h2 class="anchored" data-anchor-id="eléments-de-vocabulaire">Eléments de vocabulaire</h2>
 <ul>

@@ -3,13 +3,19 @@ project:
   output-dir: docs
 
 website:
-  title: "Site_quarto"
+  title: "Statistiques"
   navbar:
     left:
       - href: index.qmd
-        text: Home
+        text: Accueil
       - statistiques_descriptives.qmd
+      - stat_inf.qmd
       - analyses_factorielles.qmd
+      - classification_NS.qmd
+      - regression_linéaire.qmd
+      - regression_logistique.qmd
+      - données_manquantes.qmd
+      - web_scraping.qmd
       
 
 format:

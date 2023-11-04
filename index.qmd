@@ -2,8 +2,6 @@
 title: "Introduction"
 ---
 
-# Préambule
-
 Ce document compile mes notes au cours de la formation « data analyst » proposée par le CEPE (ENSAI-ENSAE).
 
 ## Contenu de la formation

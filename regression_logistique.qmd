@@ -1,0 +1,5 @@
+---
+title: "Régression logistique"
+format: html
+editor: visual
+---

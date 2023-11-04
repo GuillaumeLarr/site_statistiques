@@ -1,0 +1,149 @@
+---
+title: "Classification non supervisée"
+format: html
+editor: visual
+---
+
+```{r message=FALSE, echo=FALSE}
+library(tidyverse)
+```
+
+## Objectifs
+
+Les démarches de classification visent à décrire des ensembles de grande dimension. La classification non-supervisée consiste à [**répartir en classes**]{.underline}, en catégories, des objets ayant des [**caractères communs**]{.underline} afin notamment d'en [**faciliter l'étude**]{.underline}.
+
+En fonction du nombre d'individus, le nombre de combinaisons possibles devient vite grand. Il faut donc une solution pour rechercher les partitions optimales. Différentes méthodes peuvent être mises en oeuvre :
+
+-   Le partitionnement non-hiérarchique ([**k-means**]{.underline})
+
+-   Le partitionnement hiérarchique qui regroupe (méthode ascendante) puis divise (méthode descendante) les individus de manière séquentielle ([**CAH et CDH**]{.underline})
+
+-   Une méthode basée sur la densité des points (DBSCAN)
+
+-   Les méthodes probabilistes basées sur des modèles de mélange de lois (EM, SEM, ...)
+
+Quelle que soit la méthode, il faut définir :
+
+-   Une [**mesure de dissimilarité ou similarité**]{.underline} entre les [**individus.**]{.underline} Il s\'agit ainsi de faire en sorte que les individus [**soient les plus similaires possibles dans un groupe**]{.underline} (variabilité intra-classe faible).
+
+-   Une mesure de [**l\'homogénéité des groupes**]{.underline} et [**la différence entre les différents groupes.**]{.underline} Il s\'agit ainsi de faire en sorte que les groupes [**soient les plus différents entre eux**]{.underline} (variabilité inter-classe grande).
+
+Inertie (notion de variabilité) : distance au carré de tous les points à la moyenne du groupe. Dans le cadre d\'une démarche de classification, l\'inertie totale est égale à la somme entre la variabilité inter-classe et de la variabilité intra-classe, donc minimiser un des paramètres revient à maximiser l\'autre. Le ratio inertie inter / inertie totale est compris entre 0 et 1, plus il est proche de 1, plus les individus au sein des classes sont homogènes et les classes différentes.
+
+Attention : avant de réaliser toute classification, il faut centrer-réduire les données. Les données utilisées ne peuvent, en outre, n\'être que quantitatives. Si des variables qualitatives doivent être incluses, nous pouvons récupérer leurs coordonnées sur les principaux plans factoriels après avoir réalisé une AFC.
+
+## K-means
+
+### Présentation générale
+
+Le sujet d\'une classification est ainsi, à K fixé (c\'est-à-dire le nombre de groupes), de minimiser l\'inertie intra-classes, donc rendre les classes les plus homogènes possibles, et de maximiser l\'inertie inter-classes, donc séparer le plus possible les classes entre elles. La qualité d\'un clustering peut être évaluée par le rapport : Inertie~inter~ / inertie~totale~. C\'est l\'objectif visé par la méthode des [**k-means.**]{.underline}
+
+Pour appliquer la méthode des k-means, il faut choisir :
+
+-   Le nombre de groupes K. Il peut être fait :
+
+    -   En fonction d\'une connaissance a priori de la base
+
+    -   A la suite d\'une CAH
+
+    -   Selon un critère ad-hoc : [**« coude » dans la représentation graphique de l\'inertie intra-classes.**]{.underline}
+
+Pour ce faire, on peut utiliser la boucle suivante :
+
+```{r}
+# Création des données et centrage réduction
+
+df <- data.frame(Taille = c(168, 158, 177, 193, 178, 160, 180, 175, 189, 182), 
+                 Pointure = c(41, 37, 42, 45, 41, 37, 42, 39, 44, 45))
+dfcr <- as.data.frame(scale(df))
+
+# Boucle définition du nombre de K
+
+nbg <- 1:9 
+
+difintra <-  1:9 
+
+for (ii in 1:max(nbg)) {   
+  tmp <- kmeans(dfcr, centers = ii)   
+  difintra[ii] <- tmp$betweens 
+} 
+
+plot(nbg, difintra/tmp$totss*100, type = "h")
+```
+
+-   La distance entre vecteurs (qui est la distance euclidienne)
+
+-   Le représentant de chaque groupe (moyenne du groupe)
+
+-   Le point de départ de l\'algorithme
+
+Dans RStudio, mettre en œuvre la méthode se fait de la façon suivante :
+
+```{r}
+data(iris) 
+iris_cr <- scale(iris[1:4]) 
+km <- kmeans(x = iris_cr, centers = 3) 
+iris$km <- km$cluster  
+iris %>%    
+  ggplot(aes(Sepal.Length, Petal.Width, col = km)) +
+  geom_point() +   
+  theme_bw()
+```
+
+### Modalités de mise en oeuvre
+
+1.  Import et sélection des données à utiliser. Les variables doivent être quantitatives. Si les variables sont qualitatives, on peut récupérer les coordonnées à la suite d'une analyse factorielle.
+2.  Centrer-réduire les données
+3.  Construire la partition (via la fonction kmeans)
+4.  Caractériser les classes. Construire des classes n'a de sens que si on est capables de comprendre les logiques qui ont poussé au rapprochement entre les individus. Plusieurs indices peuvent être utilisés :
+
+-   L'étude du parangon (individu moyen, individu le plus proche du centre de la classe) de chaque variable)
+
+-   Etudier les variables qui caractérisent le mieux la partition. On peut considérer la partition comme une variable qualitative (avec autant de modalités que de classes). Pour chaque variable quantitative, on construit un modèle d'analyse de variance et on trie les variables par probabilités critiques croissantes.
+
+```{r}
+library(FactoMineR)
+iris$km <- as.factor(iris$km) 
+catdes(iris, num.var = 6)
+```
+
+La sortie représente les variables les plus liées à la variable de classe. Une valeur-test supérieure à 2 en valeur absolue signifie que la moyenne de la classe est significativement différente de la moyenne générale. Un signe positif de la valeur-test indique que la moyenne de la classe est supérieure à la moyenne générale.
+
+## Classification ascendante hiérarchique (CAH)
+
+### Présentation générale
+
+Le dendrogramme représente, sous forme d\'arbre binaire, les agrégations successives jusqu\'à la réunion en une seule classe de tous les individus. On parle de racine (1 seule classe), de feuilles (n classes), de branches et de nœuds. Elle met en avant [**les liens hiérarchiques**]{.underline} entre les individus.
+
+La hauteur d\'une branche est égale à l\'indice de la hiérarchie, soit usuellement la distance (ultramétrique) entre les deux sous-groupes regroupés. La hauteur donne la difficulté pour deux groupes d\'individus à être réunis dans le même groupe.
+
+Lorsqu\'on coupe l\'arbre, on peut comptabiliser le nombre de classes retenues.
+
+En coupant le dendrogramme au niveau d\'un saut important, on espère obtenir une partition de bonne qualité : les individus regroupés auparavant étaient proches, tandis que ceux regroupés après la coupure deviennent trop éloignés.
+
+Dans RStudio :
+
+```{r}
+hclust <- hclust(d = dist(iris[,1:4]), method = "single")
+plot(as.dendrogram(hclust))
+```
+
+Pour visualiser le gain d'inertie :
+
+```{r}
+plot(hclust[[2]], type = "h")
+```
+
+Pour finaliser la classification :
+
+```{r}
+cutree(hclust, k = 2)
+```
+
+### Modalités de mise en oeuvre
+
+1.  Import et sélection des données à utiliser. Les variables doivent être quantitatives. Si les variables sont qualitatives, on peut récupérer les coordonnées à la suite d'une analyse factorielle.
+2.  Centrer-réduire les données
+3.  Construire le dendrogramme (fonction hclust)
+4.  Définir le nombre de classes à sélectionner. Pour ce faire, il faut visualiser le graphique d'analyse d'évolution de l'inertie inter-classe (deuxième élément de la liste produite par la fonction hclust)
+5.  Caractériser les classes. Construire des classes n'a de sens que si on est capables de comprendre les logiques qui ont poussé au rapprochement entre les individus (comme pour les k-means).
