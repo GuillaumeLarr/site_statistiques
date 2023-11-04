@@ -1,0 +1,47 @@
+---
+title: "Redressement"
+format: html
+editor: visual
+---
+
+## Script pour redresser un échantillon sur la base d'une (ou plusieurs) variable(s)
+
+```{r eval=FALSE}
+
+# Calculer les proportions dans la base de réponse
+proportions_reponse <- enquete %>%
+  group_by(genre, age, education_level, occupation_category) %>%
+  summarise(count = n(), .groups = 'drop') %>%
+  ungroup() %>%
+  mutate(proportion_reponse = count / sum(count))
+
+# Calculer les proportions dans la base de population
+proportions_population <- pop %>%
+  group_by(genre, age, education_level, occupation_category) %>%
+  summarise(count = n(), .groups = 'drop') %>%
+  ungroup() %>%
+  mutate(proportion_population = count / sum(count))
+
+# Fusionner les deux bases de données
+donnees_redressees <- proportions_reponse %>%
+  left_join(proportions_population, by = c("genre", "age", "education_level", "occupation_category"))
+
+# Calculer les facteurs de pondération
+donnees_redressees <- donnees_redressees %>%
+  mutate(ponderation = proportion_population / proportion_reponse)
+
+# Appliquer les pondérations à votre base de réponse
+base_reponse_ponderee <- enquete %>%
+  left_join(donnees_redressees, by = c("genre", "age", "education_level", "occupation_category")) %>%
+  mutate(ponderation = ifelse(is.na(ponderation), 1, ponderation))
+
+# Utilisez base_reponse_ponderee pour effectuer vos analyses
+
+# Exemple d'utilisation : calcul de la moyenne de certaines variables pondérées
+resultats <- base_reponse_ponderee %>%
+  group_by(genre) %>%
+  summarise(moyenne_ponderee = weighted.mean(age, w = ponderation))
+
+# Affichez les résultats
+print(resultats)
+```

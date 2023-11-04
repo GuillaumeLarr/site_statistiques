@@ -15,6 +15,7 @@ website:
       - regression_linéaire.qmd
       - regression_logistique.qmd
       - données_manquantes.qmd
+      - redressement.qmd
       - web_scraping.qmd
       
 
