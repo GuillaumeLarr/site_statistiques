@@ -6,7 +6,7 @@ editor: visual
 
 ## Synthèse
 
--   Le % de données manquantes n'est pas lue plus important. Il est nécessaire de comprendre les relations entre les variables. L'imputation d'un jeu de données ayant des variables fortement corrélées et un grand nombre de données manquantes sera de bonne qualité, à l'inverse de l'imputation d'un jeu de données avec peu de données manquante mais beaucoup de bruit.
+-   Le % de données manquantes n'est pas le plus important. Il est nécessaire de comprendre les relations entre les variables. L'imputation d'un jeu de données ayant des variables fortement corrélées et un grand nombre de données manquantes sera de bonne qualité, à l'inverse de l'imputation d'un jeu de données avec peu de données manquante mais beaucoup de bruit.
 
 -   L'imputation simple ne tient pas compte de la variabilité induite par les données manquantes
 

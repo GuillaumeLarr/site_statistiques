@@ -24,29 +24,29 @@ En fonction du nombre d'individus, le nombre de combinaisons possibles devient v
 
 Quelle que soit la méthode, il faut définir :
 
--   Une [**mesure de dissimilarité ou similarité**]{.underline} entre les [**individus.**]{.underline} Il s\'agit ainsi de faire en sorte que les individus [**soient les plus similaires possibles dans un groupe**]{.underline} (variabilité intra-classe faible).
+-   Une [**mesure de dissimilarité ou similarité**]{.underline} entre les [**individus.**]{.underline} Il s'agit ainsi de faire en sorte que les individus [**soient les plus similaires possibles dans un groupe**]{.underline} (variabilité intra-classe faible).
 
--   Une mesure de [**l\'homogénéité des groupes**]{.underline} et [**la différence entre les différents groupes.**]{.underline} Il s\'agit ainsi de faire en sorte que les groupes [**soient les plus différents entre eux**]{.underline} (variabilité inter-classe grande).
+-   Une mesure de [**l'homogénéité des groupes**]{.underline} et [**la différence entre les différents groupes.**]{.underline} Il s'agit ainsi de faire en sorte que les groupes [**soient les plus différents entre eux**]{.underline} (variabilité inter-classe grande).
 
-Inertie (notion de variabilité) : distance au carré de tous les points à la moyenne du groupe. Dans le cadre d\'une démarche de classification, l\'inertie totale est égale à la somme entre la variabilité inter-classe et de la variabilité intra-classe, donc minimiser un des paramètres revient à maximiser l\'autre. Le ratio inertie inter / inertie totale est compris entre 0 et 1, plus il est proche de 1, plus les individus au sein des classes sont homogènes et les classes différentes.
+Inertie (notion de variabilité) : distance au carré de tous les points à la moyenne du groupe. Dans le cadre d'une démarche de classification, l'inertie totale est égale à la somme entre la variabilité inter-classe et de la variabilité intra-classe, donc minimiser un des paramètres revient à maximiser l'autre. Le ratio inertie inter / inertie totale est compris entre 0 et 1, plus il est proche de 1, plus les individus au sein des classes sont homogènes et les classes différentes.
 
-Attention : avant de réaliser toute classification, il faut centrer-réduire les données. Les données utilisées ne peuvent, en outre, n\'être que quantitatives. Si des variables qualitatives doivent être incluses, nous pouvons récupérer leurs coordonnées sur les principaux plans factoriels après avoir réalisé une AFC.
+Attention : avant de réaliser toute classification, il faut centrer-réduire les données. Les données utilisées ne peuvent, en outre, n'être que quantitatives. Si des variables qualitatives doivent être incluses, nous pouvons récupérer leurs coordonnées sur les principaux plans factoriels après avoir réalisé une AFC.
 
 ## K-means
 
 ### Présentation générale
 
-Le sujet d\'une classification est ainsi, à K fixé (c\'est-à-dire le nombre de groupes), de minimiser l\'inertie intra-classes, donc rendre les classes les plus homogènes possibles, et de maximiser l\'inertie inter-classes, donc séparer le plus possible les classes entre elles. La qualité d\'un clustering peut être évaluée par le rapport : Inertie~inter~ / inertie~totale~. C\'est l\'objectif visé par la méthode des [**k-means.**]{.underline}
+Le sujet d'une classification est ainsi, à K fixé (c'est-à-dire le nombre de groupes), de minimiser l'inertie intra-classes, donc rendre les classes les plus homogènes possibles, et de maximiser l'inertie inter-classes, donc séparer le plus possible les classes entre elles. La qualité d'un clustering peut être évaluée par le rapport : Inertie~inter~ / inertie~totale~. C'est l'objectif visé par la méthode des [**k-means.**]{.underline}
 
 Pour appliquer la méthode des k-means, il faut choisir :
 
 -   Le nombre de groupes K. Il peut être fait :
 
-    -   En fonction d\'une connaissance a priori de la base
+    -   En fonction d'une connaissance a priori de la base
 
-    -   A la suite d\'une CAH
+    -   A la suite d'une CAH
 
-    -   Selon un critère ad-hoc : [**« coude » dans la représentation graphique de l\'inertie intra-classes.**]{.underline}
+    -   Selon un critère ad-hoc : [**« coude » dans la représentation graphique de l'inertie intra-classes.**]{.underline}
 
 Pour ce faire, on peut utiliser la boucle suivante :
 
@@ -75,7 +75,7 @@ plot(nbg, difintra/tmp$totss*100, type = "h")
 
 -   Le représentant de chaque groupe (moyenne du groupe)
 
--   Le point de départ de l\'algorithme
+-   Le point de départ de l'algorithme
 
 Dans RStudio, mettre en œuvre la méthode se fait de la façon suivante :
 
@@ -113,13 +113,13 @@ La sortie représente les variables les plus liées à la variable de classe. Un
 
 ### Présentation générale
 
-Le dendrogramme représente, sous forme d\'arbre binaire, les agrégations successives jusqu\'à la réunion en une seule classe de tous les individus. On parle de racine (1 seule classe), de feuilles (n classes), de branches et de nœuds. Elle met en avant [**les liens hiérarchiques**]{.underline} entre les individus.
+Le dendrogramme représente, sous forme d'arbre binaire, les agrégations successives jusqu'à la réunion en une seule classe de tous les individus. On parle de racine (1 seule classe), de feuilles (n classes), de branches et de nœuds. Elle met en avant [**les liens hiérarchiques**]{.underline} entre les individus.
 
-La hauteur d\'une branche est égale à l\'indice de la hiérarchie, soit usuellement la distance (ultramétrique) entre les deux sous-groupes regroupés. La hauteur donne la difficulté pour deux groupes d\'individus à être réunis dans le même groupe.
+La hauteur d'une branche est égale à l'indice de la hiérarchie, soit usuellement la distance (ultramétrique) entre les deux sous-groupes regroupés. La hauteur donne la difficulté pour deux groupes d'individus à être réunis dans le même groupe.
 
-Lorsqu\'on coupe l\'arbre, on peut comptabiliser le nombre de classes retenues.
+Lorsqu'on coupe l'arbre, on peut comptabiliser le nombre de classes retenues.
 
-En coupant le dendrogramme au niveau d\'un saut important, on espère obtenir une partition de bonne qualité : les individus regroupés auparavant étaient proches, tandis que ceux regroupés après la coupure deviennent trop éloignés.
+En coupant le dendrogramme au niveau d'un saut important, on espère obtenir une partition de bonne qualité : les individus regroupés auparavant étaient proches, tandis que ceux regroupés après la coupure deviennent trop éloignés.
 
 Dans RStudio :
 

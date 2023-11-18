@@ -3,3 +3,119 @@ title: "Régression logistique"
 format: html
 editor: visual
 ---
+
+# Comparaison entre la régression linéaire et la régression logistique
+
+La régression logistique est une méthode permettant de prédire ou d'expliquer une variable qualitative qui prend 2 valeurs (Oui / Non, ...).
+
++-----------------------------+-----------------------------------------+-------------------------------------------------------------------+
+|                             | Régression linéaire                     | Régression logistique                                             |
++=============================+=========================================+===================================================================+
+| Variable à expliquer        | Quantitative continue                   | Qualitative sur 2 positions                                       |
++-----------------------------+-----------------------------------------+-------------------------------------------------------------------+
+| Estimation des coefficients | Par minimisation de la fonction de coût | Par maximisation de la vraisemblance (via un algorithme itératif) |
++-----------------------------+-----------------------------------------+-------------------------------------------------------------------+
+| Résidus                     | Résidus studentisés                     | Résidus de déviance (les plus courants)                           |
+|                             |                                         |                                                                   |
+|                             |                                         | Résidus de Pearson                                                |
++-----------------------------+-----------------------------------------+-------------------------------------------------------------------+
+| Points leviers              | Oui                                     | Oui                                                               |
++-----------------------------+-----------------------------------------+-------------------------------------------------------------------+
+
+Dans R :
+
+-   Il faut utiliser la fonction glm() avec le paramètre "family = binomial"
+
+Dans le cas de la mise en place d'un modèle de prévision, nous devons déterminer sa capacité prédictive. Il faut affecter les Y estimés / prévus pour déterminer les :
+
+-   Vrais positifs
+
+-   Faux positifs
+
+-   Vrais négatifs
+
+-   Faux négatifs
+
+On calcule sur cette base :
+
+-   **Précision** : nb de fois où on a raison / nb total de cas =\> ne permet pas de préciser si on se trompe sur les 0 ou sur les 1
+
+-   **Sensibilité** : nb de VP / nb de 1, donc le pourcentage de vrais positifs
+
+-   **Spécificité** : nb de VN / nb de négatifs
+
+Pour ce faire, il faut déterminer un seuil :
+
+-   Seuil de Bayes (0.5)
+
+-   Seuil naturel
+
+La recherche du seuil est réalisée via le script suivant :
+
+```{r}
+# seuilc <- sort(prevc)[floor(nrow(donT)*0.65)+1]
+# seuilaic <- sort(prevAIC)[floor(nrow(donT)*0.65)+1]
+# seuilbic <- sort(prevBIC)[floor(nrow(donT)*0.65)+1]
+```
+
+# Ressources
+
+## Validation croisée par blocs (régression linéaire)
+
+Le script ci-dessous permet de faire de la validation croisée par blocs :
+
+```{r}
+# nb=10 # nombre de groupes
+# 
+# set.seed(1234)
+# 
+# bloc <- sample(rep(1:nb,length=nrow(don)))
+# RES <- data.frame(Y=don$Y)
+# 
+# for(ii in 1:nb){
+#   print(ii)
+#   donA=don[bloc!=ii,]
+#   donT=don[bloc==ii,]
+#   modcomplet <- lm(Y~.,data=donA)
+#   modAIC <- step(modcomplet,trace=0)
+#   modBIC <- step(modcomplet,k=log(nrow(donA)),trace=0)
+#   RES[bloc==ii,"complet"] <- predict(modcomplet,donT)
+#   RES[bloc==ii,"aic"] <- predict(modAIC,donT)
+#   RES[bloc==ii,"bic"] <- predict(modBIC,donT)
+# }
+# erreur <- function(X,Y){mean((X-Y)^2)}
+# apply(RES,2,erreur,Y=RES$Y)
+```
+
+## Validation croisée par blocs (régression logistique)
+
+```{r}
+# nb <- 10 # nombre de groupes
+# 
+# set.seed(1234)
+# 
+# bloc <- sample(rep(1:nb,length=nrow(don)))
+# RES <- data.frame(Y=don$Y,log=NA,aic=NA,bic=NA)
+# 
+# for(ii in 1:nb){
+#   donA <- don[bloc!=ii,]
+#   donT <- don[bloc==ii,]
+#   ############################################
+#   algo1 <- glm(Y~.,data=donA,family="binomial")
+#   RES[bloc==ii,"log"] <- predict(algo1,donT,type="response")
+#   ############################################
+#   algo2 <- step(algo1,trace=0)
+#   RES[bloc==ii,"aic"] <- predict(algo2,donT,type="response")
+#   ############################################
+#   algo3 <- step(algo1,trace=0,k=log(nrow(donA)))
+#   RES[bloc==ii,"bic"] <- predict(algo3,donT,type="response")
+# }
+```
+
+La validation du modèle est réalisée avec le script suivant :
+
+```{r}
+# library(pROC)
+# rocp <- roc(Y~.,data=resdf) # resdf = df obtenu via l'aglo précédent
+# sapply(rocp,coords,x=0.5,ret=c("accuracy","threshold"))
+```
