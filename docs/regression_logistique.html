@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -132,7 +166,18 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#comparaison-entre-la-régression-linéaire-et-la-régression-logistique" id="toc-comparaison-entre-la-régression-linéaire-et-la-régression-logistique" class="nav-link active" data-scroll-target="#comparaison-entre-la-régression-linéaire-et-la-régression-logistique">Comparaison entre la régression linéaire et la régression logistique</a></li>
+  <li><a href="#ressources" id="toc-ressources" class="nav-link" data-scroll-target="#ressources">Ressources</a>
+  <ul class="collapse">
+  <li><a href="#validation-croisée-par-blocs-régression-linéaire" id="toc-validation-croisée-par-blocs-régression-linéaire" class="nav-link" data-scroll-target="#validation-croisée-par-blocs-régression-linéaire">Validation croisée par blocs (régression linéaire)</a></li>
+  <li><a href="#validation-croisée-par-blocs-régression-logistique" id="toc-validation-croisée-par-blocs-régression-logistique" class="nav-link" data-scroll-target="#validation-croisée-par-blocs-régression-logistique">Validation croisée par blocs (régression logistique)</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -154,8 +199,137 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="comparaison-entre-la-régression-linéaire-et-la-régression-logistique" class="level1">
+<h1>Comparaison entre la régression linéaire et la régression logistique</h1>
+<p>La régression logistique est une méthode permettant de prédire ou d’expliquer une variable qualitative qui prend 2 valeurs (Oui / Non, …).</p>
+<table class="table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 29%">
+<col style="width: 48%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>Régression linéaire</th>
+<th>Régression logistique</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Variable à expliquer</td>
+<td>Quantitative continue</td>
+<td>Qualitative sur 2 positions</td>
+</tr>
+<tr class="even">
+<td>Estimation des coefficients</td>
+<td>Par minimisation de la fonction de coût</td>
+<td>Par maximisation de la vraisemblance (via un algorithme itératif)</td>
+</tr>
+<tr class="odd">
+<td>Résidus</td>
+<td>Résidus studentisés</td>
+<td><p>Résidus de déviance (les plus courants)</p>
+<p>Résidus de Pearson</p></td>
+</tr>
+<tr class="even">
+<td>Points leviers</td>
+<td>Oui</td>
+<td>Oui</td>
+</tr>
+</tbody>
+</table>
+<p>Dans R :</p>
+<ul>
+<li>Il faut utiliser la fonction glm() avec le paramètre “family = binomial”</li>
+</ul>
+<p>Dans le cas de la mise en place d’un modèle de prévision, nous devons déterminer sa capacité prédictive. Il faut affecter les Y estimés / prévus pour déterminer les :</p>
+<ul>
+<li><p>Vrais positifs</p></li>
+<li><p>Faux positifs</p></li>
+<li><p>Vrais négatifs</p></li>
+<li><p>Faux négatifs</p></li>
+</ul>
+<p>On calcule sur cette base :</p>
+<ul>
+<li><p><strong>Précision</strong>&nbsp;: nb de fois où on a raison / nb total de cas =&gt; ne permet pas de préciser si on se trompe sur les 0 ou sur les 1</p></li>
+<li><p><strong>Sensibilité</strong>&nbsp;: nb de VP / nb de 1, donc le pourcentage de vrais positifs</p></li>
+<li><p><strong>Spécificité</strong>&nbsp;: nb de VN / nb de négatifs</p></li>
+</ul>
+<p>Pour ce faire, il faut déterminer un seuil :</p>
+<ul>
+<li><p>Seuil de Bayes (0.5)</p></li>
+<li><p>Seuil naturel</p></li>
+</ul>
+<p>La recherche du seuil est réalisée via le script suivant :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># seuilc &lt;- sort(prevc)[floor(nrow(donT)*0.65)+1]</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># seuilaic &lt;- sort(prevAIC)[floor(nrow(donT)*0.65)+1]</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># seuilbic &lt;- sort(prevBIC)[floor(nrow(donT)*0.65)+1]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="ressources" class="level1">
+<h1>Ressources</h1>
+<section id="validation-croisée-par-blocs-régression-linéaire" class="level2">
+<h2 class="anchored" data-anchor-id="validation-croisée-par-blocs-régression-linéaire">Validation croisée par blocs (régression linéaire)</h2>
+<p>Le script ci-dessous permet de faire de la validation croisée par blocs :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nb=10 # nombre de groupes</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed(1234)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bloc &lt;- sample(rep(1:nb,length=nrow(don)))</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># RES &lt;- data.frame(Y=don$Y)</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co"># for(ii in 1:nb){</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   print(ii)</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   donA=don[bloc!=ii,]</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   donT=don[bloc==ii,]</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   modcomplet &lt;- lm(Y~.,data=donA)</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   modAIC &lt;- step(modcomplet,trace=0)</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   modBIC &lt;- step(modcomplet,k=log(nrow(donA)),trace=0)</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"complet"] &lt;- predict(modcomplet,donT)</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"aic"] &lt;- predict(modAIC,donT)</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"bic"] &lt;- predict(modBIC,donT)</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co"># erreur &lt;- function(X,Y){mean((X-Y)^2)}</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># apply(RES,2,erreur,Y=RES$Y)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="validation-croisée-par-blocs-régression-logistique" class="level2">
+<h2 class="anchored" data-anchor-id="validation-croisée-par-blocs-régression-logistique">Validation croisée par blocs (régression logistique)</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># nb &lt;- 10 # nombre de groupes</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># set.seed(1234)</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co"># bloc &lt;- sample(rep(1:nb,length=nrow(don)))</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># RES &lt;- data.frame(Y=don$Y,log=NA,aic=NA,bic=NA)</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co"># </span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># for(ii in 1:nb){</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   donA &lt;- don[bloc!=ii,]</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#   donT &lt;- don[bloc==ii,]</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#   ############################################</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#   algo1 &lt;- glm(Y~.,data=donA,family="binomial")</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"log"] &lt;- predict(algo1,donT,type="response")</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#   ############################################</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#   algo2 &lt;- step(algo1,trace=0)</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"aic"] &lt;- predict(algo2,donT,type="response")</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#   ############################################</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#   algo3 &lt;- step(algo1,trace=0,k=log(nrow(donA)))</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#   RES[bloc==ii,"bic"] &lt;- predict(algo3,donT,type="response")</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co"># }</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>La validation du modèle est réalisée avec le script suivant :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library(pROC)</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># rocp &lt;- roc(Y~.,data=resdf) # resdf = df obtenu via l'aglo précédent</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># sapply(rocp,coords,x=0.5,ret=c("accuracy","threshold"))</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

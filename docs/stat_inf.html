@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -132,7 +166,54 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#notions-de-base" id="toc-notions-de-base" class="nav-link active" data-scroll-target="#notions-de-base">Notions de base</a>
+  <ul class="collapse">
+  <li><a href="#définitions" id="toc-définitions" class="nav-link" data-scroll-target="#définitions">Définitions</a></li>
+  <li><a href="#exemples" id="toc-exemples" class="nav-link" data-scroll-target="#exemples">Exemples</a></li>
+  </ul></li>
+  <li><a href="#variables-aléatoires" id="toc-variables-aléatoires" class="nav-link" data-scroll-target="#variables-aléatoires">Variables aléatoires</a></li>
+  <li><a href="#principales-lois-de-probabilités-discrètes" id="toc-principales-lois-de-probabilités-discrètes" class="nav-link" data-scroll-target="#principales-lois-de-probabilités-discrètes">Principales lois de probabilités discrètes</a>
+  <ul class="collapse">
+  <li><a href="#loi-de-bernoulli" id="toc-loi-de-bernoulli" class="nav-link" data-scroll-target="#loi-de-bernoulli">Loi de Bernoulli</a></li>
+  <li><a href="#loi-binomiale" id="toc-loi-binomiale" class="nav-link" data-scroll-target="#loi-binomiale">Loi binomiale</a></li>
+  </ul></li>
+  <li><a href="#principales-lois-de-probabilités-continues" id="toc-principales-lois-de-probabilités-continues" class="nav-link" data-scroll-target="#principales-lois-de-probabilités-continues">Principales lois de probabilités continues</a>
+  <ul class="collapse">
+  <li><a href="#loi-uniforme" id="toc-loi-uniforme" class="nav-link" data-scroll-target="#loi-uniforme">Loi uniforme</a></li>
+  <li><a href="#loi-normale" id="toc-loi-normale" class="nav-link" data-scroll-target="#loi-normale">Loi normale</a></li>
+  </ul></li>
+  <li><a href="#espérance-et-variance-dune-variable-aléatoire" id="toc-espérance-et-variance-dune-variable-aléatoire" class="nav-link" data-scroll-target="#espérance-et-variance-dune-variable-aléatoire">Espérance et variance d’une variable aléatoire</a></li>
+  <li><a href="#loi-forte-des-grands-nombres" id="toc-loi-forte-des-grands-nombres" class="nav-link" data-scroll-target="#loi-forte-des-grands-nombres">Loi forte des grands nombres</a></li>
+  <li><a href="#applications-statistiques-inférentielles" id="toc-applications-statistiques-inférentielles" class="nav-link" data-scroll-target="#applications-statistiques-inférentielles">Applications (statistiques inférentielles)</a>
+  <ul class="collapse">
+  <li><a href="#estimations-ponctuelles-réponse-à-la-q1" id="toc-estimations-ponctuelles-réponse-à-la-q1" class="nav-link" data-scroll-target="#estimations-ponctuelles-réponse-à-la-q1">Estimations ponctuelles (réponse à la Q1)</a></li>
+  <li><a href="#intervalles-de-confiance-réponse-à-la-q2" id="toc-intervalles-de-confiance-réponse-à-la-q2" class="nav-link" data-scroll-target="#intervalles-de-confiance-réponse-à-la-q2">Intervalles de confiance (réponse à la Q2)</a>
+  <ul class="collapse">
+  <li><a href="#les-intervalles-de-confiance-pour-les-proportions" id="toc-les-intervalles-de-confiance-pour-les-proportions" class="nav-link" data-scroll-target="#les-intervalles-de-confiance-pour-les-proportions">Les intervalles de confiance pour les proportions</a></li>
+  <li><a href="#les-intervalles-de-confiance-pour-les-moyennes" id="toc-les-intervalles-de-confiance-pour-les-moyennes" class="nav-link" data-scroll-target="#les-intervalles-de-confiance-pour-les-moyennes">Les intervalles de confiance pour les moyennes</a></li>
+  <li><a href="#les-intervalles-de-confiance-pour-les-variances" id="toc-les-intervalles-de-confiance-pour-les-variances" class="nav-link" data-scroll-target="#les-intervalles-de-confiance-pour-les-variances">Les intervalles de confiance pour les variances</a></li>
+  </ul></li>
+  <li><a href="#tests-statistiques" id="toc-tests-statistiques" class="nav-link" data-scroll-target="#tests-statistiques">Tests statistiques</a>
+  <ul class="collapse">
+  <li><a href="#test-paramétrique-pour-une-proportion" id="toc-test-paramétrique-pour-une-proportion" class="nav-link" data-scroll-target="#test-paramétrique-pour-une-proportion">Test paramétrique pour une proportion</a></li>
+  <li><a href="#test-paramétrique-pour-une-moyenne" id="toc-test-paramétrique-pour-une-moyenne" class="nav-link" data-scroll-target="#test-paramétrique-pour-une-moyenne">Test paramétrique pour une moyenne</a></li>
+  <li><a href="#test-paramétrique-pour-une-variance" id="toc-test-paramétrique-pour-une-variance" class="nav-link" data-scroll-target="#test-paramétrique-pour-une-variance">Test paramétrique pour une variance</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#tests-de-comparaison-de-2-échantillons" id="toc-tests-de-comparaison-de-2-échantillons" class="nav-link" data-scroll-target="#tests-de-comparaison-de-2-échantillons">Tests de comparaison de 2 échantillons</a></li>
+  <li><a href="#autres-cas-dapplication" id="toc-autres-cas-dapplication" class="nav-link" data-scroll-target="#autres-cas-dapplication">Autres cas d’application</a>
+  <ul class="collapse">
+  <li><a href="#intervalle-de-confiance-dune-moyenne" id="toc-intervalle-de-confiance-dune-moyenne" class="nav-link" data-scroll-target="#intervalle-de-confiance-dune-moyenne">Intervalle de confiance d’une moyenne</a></li>
+  <li><a href="#test-du-chi²-dindépendance" id="toc-test-du-chi²-dindépendance" class="nav-link" data-scroll-target="#test-du-chi²-dindépendance">Test du chi² d’indépendance</a></li>
+  <li><a href="#comparaison-de-2-moyennes" id="toc-comparaison-de-2-moyennes" class="nav-link" data-scroll-target="#comparaison-de-2-moyennes">Comparaison de 2 moyennes</a></li>
+  <li><a href="#test-sur-les-proportions" id="toc-test-sur-les-proportions" class="nav-link" data-scroll-target="#test-sur-les-proportions">Test sur les proportions</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -154,8 +235,482 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="notions-de-base" class="level1">
+<h1>Notions de base</h1>
+<section id="définitions" class="level2">
+<h2 class="anchored" data-anchor-id="définitions">Définitions</h2>
+<p>On considère 2 événements A et B inclus dans l’espace de tous les possibles Ω.</p>
+<ul>
+<li><p>La probabilité de A est compris entre 0 et 1</p></li>
+<li><p>La probabilité que A ne se produise pas (l’inverse donc) est 1 – probabilité de A</p></li>
+<li><p>La probabilité croisée de A et B est égale à la probabilité de A + la probabilité de B – P(A∩B)</p></li>
+<li><p>Deux événements sont considérés indépendants si la probabilité de A ou B (P(A∩B)) est égale à la probabilité de A * la probabilité de B</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="exemples" class="level2">
+<h2 class="anchored" data-anchor-id="exemples">Exemples</h2>
+<p>On prend un lancer de 2 D6.</p>
+<ul>
+<li><p>A = la somme des 2 dés est impaire</p></li>
+<li><p>B = au moins un des dés présente un 1</p></li>
+</ul>
+<p>Les ensembles qui vérifient ces conditions sont les suivants&nbsp;:</p>
+<ul>
+<li><p>A&nbsp;: (a, b) avec a et b de parités contraires</p></li>
+<li><p>B (1, 1), (a, 1) et (b, 1) avec a et b supérieurs ou égaux à 2</p></li>
+</ul>
+<p>Donc&nbsp;:</p>
+<ul>
+<li><p>P(A) = 18/36</p></li>
+<li><p>P(B) = 11/36</p></li>
+<li><p>P(A∩B) = 6/36</p></li>
+</ul>
+<p>Les deux évènements ne sont donc pas indépendants, car P(A∩B) n’est pas égale à P(A)*P(B)</p>
+</section>
+</section>
+<section id="variables-aléatoires" class="level1">
+<h1>Variables aléatoires</h1>
+<p>Une <u><strong>variable aléatoire</strong></u> est la partie du résultat d’une expérience aléatoire à laquelle on s’intéresse (ex&nbsp;: la probabilité qu’un lancer de D6 donne un résultat pair).</p>
+<p>La <u><strong>fonction de répartition</strong></u> est définie dans R par&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>La fonction de répartition&nbsp;:</p>
+<ul>
+<li><p>Est comprise entre 0 et 1</p></li>
+<li><p>Est croissante</p></li>
+<li><p>Tend vers 0 si x tend vers – Inf</p></li>
+<li><p>Tend vers 1 si x tend vers + Inf</p></li>
+</ul>
+<p>Le quantile est la loi X d’ordre α qui vérifie les conditions suivantes&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p>La médiane est le quantile ½</p></li>
+<li><p>Quartile k/4</p></li>
+<li><p>Décile k/10</p></li>
+<li><p>Centile 1/100</p></li>
+</ul>
+</section>
+<section id="principales-lois-de-probabilités-discrètes" class="level1">
+<h1>Principales lois de probabilités discrètes</h1>
+<p>Exemple de loi uniforme discrète&nbsp;: un lancer de dé</p>
+<section id="loi-de-bernoulli" class="level2">
+<h2 class="anchored" data-anchor-id="loi-de-bernoulli">Loi de Bernoulli</h2>
+<p>Cette loi s’applique dans les cas où deux résultats sont possibles lors d’un événement. Par exemple&nbsp;: tirer une boule noire ou une boule blanche.</p>
+<p>Nous prenons la variable aléatoire X suivante&nbsp;:</p>
+<ul>
+<li><p>X = 1&nbsp;: tirage d’une boule blanche</p></li>
+<li><p>X = 0&nbsp;: tirage d’une boule noire</p></li>
+</ul>
+<p>Dans ce cas&nbsp;:</p>
+<ul>
+<li><p>P(X = 1) = p</p></li>
+<li><p>P(X = 0) = 1 – p</p></li>
+</ul>
+<p>On dit que la variable aléatoire suit une loi de Bernoulli de paramètre p compris entre 0 et 1&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="loi-binomiale" class="level2">
+<h2 class="anchored" data-anchor-id="loi-binomiale">Loi binomiale</h2>
+<p>La <u><strong>loi binomiale</strong></u> est la loi que suit une série de lois de Bernoulli (somme de n Bernoulli). Par exemple&nbsp;: série de n tirages.</p>
+<p>Si nous prenons la variable aléatoire X = nombre de boules blanches tirées à l’issue de ces n tirages. On dit que cette variable aléatoire suit une loi binomiale de <u><strong>paramètres n (nombre de tirages) et p (probabilité de l’événement étudié).</strong></u></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="principales-lois-de-probabilités-continues" class="level1">
+<h1>Principales lois de probabilités continues</h1>
+<section id="loi-uniforme" class="level2">
+<h2 class="anchored" data-anchor-id="loi-uniforme">Loi uniforme</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Une loi est uniforme si chaque issue à une probabilité égale de se produire.</p>
+</section>
+<section id="loi-normale" class="level2">
+<h2 class="anchored" data-anchor-id="loi-normale">Loi normale</h2>
+<p>La <u><strong>loi normale N</strong></u> (gaussienne) suit les paramètres&nbsp;:</p>
+<ul>
+<li><p>µ = espérance (soit la moyenne)</p></li>
+<li><p>σ² = écart-type</p></li>
+</ul>
+<p>La loi N(0,1) est appelée <u><strong>loi normale centrée réduite.</strong></u></p>
+<p>Φ désigne la fonction de répartition d’une loi normale N(0,1).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_7.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>D’autres exemples de lois continues&nbsp;:</p>
+<ul>
+<li><p>loi du Khi-deux</p></li>
+<li><p>loi de Fischer</p></li>
+<li><p>loi de Student</p></li>
+</ul>
+</section>
+</section>
+<section id="espérance-et-variance-dune-variable-aléatoire" class="level1">
+<h1>Espérance et variance d’une variable aléatoire</h1>
+<ul>
+<li><p>L’espérance correspond à la moyenne théorique de la loi</p></li>
+<li><p>La variance correspond à la variance théorique de la loi</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_8.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="loi-forte-des-grands-nombres" class="level1">
+<h1>Loi forte des grands nombres</h1>
+<p>La loi forte des grands nombres démontre que la moyenne empirique converge vers la moyenne théorique (espérance).</p>
+<p>Le théorème central limit établit la convergence en loi de la somme d’une suite de variables aléatoires vers la loi normale (par exemple, si on fait l’addition de plusieurs jets de dés, les résultats auront la forme d’une loi normale).</p>
+</section>
+<section id="applications-statistiques-inférentielles" class="level1">
+<h1>Applications (statistiques inférentielles)</h1>
+<p><strong>Cas d’étude considérés&nbsp;:</strong></p>
+<p>Nous prenons deux cas d’étude&nbsp;:</p>
+<p>Cas 1&nbsp;: <u><strong>proportion</strong></u> de guérisons suite à la consommation d’un médicament. On observe au total 167 guérisons sur 216 tests, soit environ 77,3% des cas. Dans ce cas, nous souhaiterions savoir si ce traitement est plus efficace qu’un autre traitement dont le taux de guérison avéré est p = 0.75.</p>
+<p>Pour ce cas&nbsp;:</p>
+<p>Q1&nbsp;: quel est le taux de guérison théorique&nbsp;?</p>
+<p>Q2&nbsp;: on souhaite disposer d’une «&nbsp;fourchette&nbsp;» pour ce taux de guérison</p>
+<p>Q3&nbsp;: on souhaite savoir si le taux de guérison théorique est meilleur que 0.75.</p>
+<p>Cas 2&nbsp;: <u><strong>moyenne</strong></u> des consommations d’essence, sur la base de 128 observations. On observe une consommation moyenne de 31.45 litres aux 100. On souhaite connaitre la consommation théorique, disposer d’un intervalle de confiance sur la consommation des véhicules et communiquer sur le fait que les cars consomment en moyenne 31 litres aux 100.</p>
+<p>Pour ce cas&nbsp;:</p>
+<p>Q1&nbsp;: quelle est la consommation théorique des cars&nbsp;?</p>
+<p>Q2&nbsp;: quel est l’intervalle de confiance de cette consommation&nbsp;?</p>
+<p>Q3&nbsp;: est-ce qu’on peut dire que la consommation des cars est de 31 litres aux 100&nbsp;?</p>
+<p>Pour répondre à la Q1 on donne une estimation ponctuelle&nbsp;:</p>
+<ul>
+<li><p>Du taux de guérison théorique (p)</p></li>
+<li><p>De la consommation d’essence théorique (mu), et la dispersion de cette consommation (sigma²).</p></li>
+</ul>
+<p>Pour répondre à la Q2, on donne un intervalle de confiance.</p>
+<p>Pour répondre à la Q3, on mettra en place un test statistique pour vérifier que&nbsp;:</p>
+<ul>
+<li><p>p &gt; p0 avec p0 = 0.75</p></li>
+<li><p>mu = mu0, avec mu0 = 31</p></li>
+</ul>
+<p>Dans nos cas, on suppose que chaque observation est la réalisation d’une variable aléatoire, c’est-à-dire le fruit d’un tirage aléatoire. On se place dans le cas de figure où toutes les observations peuvent être considérées comme indépendantes et représentatives du phénomène. Les variables aléatoires sont ainsi <u><strong>indépendantes et identiquement distribuées (i.i.d.)</strong></u></p>
+<p>Le cas d’étude 1 correspond à un modèle de Bernoulli (B(p)).</p>
+<p>Le cas d’étude 2 correspond au modèle gaussien (N(mu, sigma²)).</p>
+<section id="estimations-ponctuelles-réponse-à-la-q1" class="level2">
+<h2 class="anchored" data-anchor-id="estimations-ponctuelles-réponse-à-la-q1">Estimations ponctuelles (réponse à la Q1)</h2>
+<p>Pour appréhender les paramètres des lois des cas 1 et 2, on ne dispose que des observations, réalisations des variables aléatoires iid. On utilise des <u><strong>estimateurs</strong></u>&nbsp;:</p>
+<ul>
+<li><p>Pour les lois de Bernoulli&nbsp;: c’est la <u><strong>proportion / fréquence empirique</strong></u>(ex&nbsp;: fréquence de guérisons, soit 167/216, soit 0.773)</p></li>
+<li><p>Pour les lois normales&nbsp;:</p>
+<ul>
+<li><p>L’estimateur de l’espérance est la <u><strong>moyenne</strong></u></p></li>
+<li><p>L’estimateur de la variance est la <u><strong>variance empirique</strong></u></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="intervalles-de-confiance-réponse-à-la-q2" class="level2">
+<h2 class="anchored" data-anchor-id="intervalles-de-confiance-réponse-à-la-q2">Intervalles de confiance (réponse à la Q2)</h2>
+<p>L’estimateur est un estimateur. Il varie en fonction de l’échantillon considéré. Il est souvent associé à un <u><strong>intervalle de confiance</strong></u>, qui est permet d’énoncer des phrases du type «&nbsp;Il y a 95% de chances pour que <em>le paramètre théorique</em> se trouve dans cet intervalle&nbsp;».</p>
+<p>On peut construire des intervalles de confiance <u><strong>bilatères</strong></u> (encadre le paramètre à gauche et à droite) ou <u><strong>unilatères</strong></u> (encadre le paramètre à gauche ou à droite).</p>
+<p>Classiquement, les intervalles de confiance sont de niveaux 90% (α = 10%) ou 95% (α = 5%).</p>
+<section id="les-intervalles-de-confiance-pour-les-proportions" class="level3">
+<h3 class="anchored" data-anchor-id="les-intervalles-de-confiance-pour-les-proportions">Les intervalles de confiance pour les proportions</h3>
+<p>Conditions d’application&nbsp;:</p>
+<ul>
+<li><p>Pour les petits échantillons (n &lt; 30), on se base sur la loi binomiale</p></li>
+<li><p>Pour les grands échantillons ou si la proportion est inférieure ou égale à 5, on utilise l’approximation de la loi normale.</p></li>
+</ul>
+<p>Pour le cas 1&nbsp;:</p>
+<ul>
+<li><p>Avec un intervalle de confiance de 95%, on obtient que la proportion théorique est comprise entre 0.717 et 0.829.</p></li>
+<li><p>La largeur de l’intervalle n’est pas négligeable. Mais il n’y a que 216 individus dans l’échantillon.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="at">x =</span> <span class="dv">167</span>, <span class="at">n =</span> <span class="dv">216</span>, <span class="at">p =</span> <span class="fl">0.75</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="co"># Argument conf.level et regarder la sortie "95 percent confidence interval"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    1-sample proportions test with continuity correction
+
+data:  167 out of 216, null probability 0.75
+X-squared = 0.5, df = 1, p-value = 0.2398
+alternative hypothesis: true p is greater than 0.75
+95 percent confidence interval:
+ 0.7206161 1.0000000
+sample estimates:
+        p 
+0.7731481 </code></pre>
+</div>
+</div>
+</section>
+<section id="les-intervalles-de-confiance-pour-les-moyennes" class="level3">
+<h3 class="anchored" data-anchor-id="les-intervalles-de-confiance-pour-les-moyennes">Les intervalles de confiance pour les moyennes</h3>
+<p>Conditions d’application&nbsp;:</p>
+<ul>
+<li><p>On a une loi normale</p></li>
+<li><p>L’échantillon est supérieur à 30</p></li>
+</ul>
+<p>Pour le cas 2&nbsp;:</p>
+<ul>
+<li>Pour un intervalle de confiance de 95%, on obtiens que la moyenne théorique est comprise entre 31.07 et 31.83.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(<span class="at">x =</span> iris<span class="sc">$</span>Sepal.Length, <span class="at">mu =</span> <span class="fl">5.7</span>, <span class="at">alternative =</span> <span class="st">"greater"</span>, <span class="at">conf.level =</span> <span class="fl">0.95</span>) <span class="co"># Argument conf.level et regarder la sortie "95 percent confidence interval"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    One Sample t-test
+
+data:  iris$Sepal.Length
+t = 2.12, df = 149, p-value = 0.01783
+alternative hypothesis: true mean is greater than 5.7
+95 percent confidence interval:
+ 5.731427      Inf
+sample estimates:
+mean of x 
+ 5.843333 </code></pre>
+</div>
+</div>
+</section>
+<section id="les-intervalles-de-confiance-pour-les-variances" class="level3">
+<h3 class="anchored" data-anchor-id="les-intervalles-de-confiance-pour-les-variances">Les intervalles de confiance pour les variances</h3>
+<p>Conditions d’application&nbsp;:</p>
+<ul>
+<li><p>On a une loi normale</p></li>
+<li><p>L’échantillon est supérieur à 30</p></li>
+</ul>
+<p>Pour le cas 2&nbsp;:</p>
+<ul>
+<li>Pour un intervalle de confiance de 95%, on obtiens que la variance théorique est comprise entre 3.70 et 6.06.</li>
+</ul>
+</section>
+</section>
+<section id="tests-statistiques" class="level2">
+<h2 class="anchored" data-anchor-id="tests-statistiques">Tests statistiques</h2>
+<p>On veut savoir si le taux de guérison du médicament est meilleur que pour l'ancien médicament. L'efficacité de ce nouveau médicament est considérée par défaut comme au mieux similaire à celle du précédent médicament. Cet a priori correspond à ce que appelle l'hypothèse nulle, appelée H0. L'hypothèse alternative est notée H1. Elle permet d'indiquer les cas de figure où on rejette H0.</p>
+<p>On pose ainsi 2 hypothèses&nbsp;:</p>
+<ul>
+<li><p>H0&nbsp;: p = p0</p></li>
+<li><p>H1&nbsp;: p &gt; p0</p></li>
+</ul>
+<p>Le risque de première espèce correspond au risque de rejeter H0 à tort.</p>
+<p>Le niveau de test est la région de rejet de H0 (5%, 1%, …)</p>
+<p>Le risque de seconde espèce correspond au risque de non-rejet de H0 à mauvais escient.</p>
+<ul>
+<li><p>L'hypothèse nulle H0 est l'hypothèse qu'on ne souhaite pas rejeter trop facilement. C'est celle que l'on teste.</p></li>
+<li><p>L'hypothèse alternative, H1, indique dans quelles conditions on rejette H0. Elle donne donc des informations sur la forme de la région critique. (basée sur une statistique de test). Pour déterminer la région critique, il faut connaitre la loi de la statistique de test sous H0.</p></li>
+</ul>
+<p>Pour déterminer la région critique, on regarde la p-valeur&nbsp;:</p>
+<ul>
+<li>Rejet de H0 au niveau de test α ⬄ p-valeur &lt; α</li>
+</ul>
+<p>Si la p-valeur est faible, cela signifie que l'observation est rare (donc peu probable) sous H0, ce qui incite à rejeter H0.</p>
+<section id="test-paramétrique-pour-une-proportion" class="level3">
+<h3 class="anchored" data-anchor-id="test-paramétrique-pour-une-proportion">Test paramétrique pour une proportion</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Ici, p0 = 0.75</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_10.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_11.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>On peut utiliser la fonction</p>
+<ul>
+<li><p>Prop.test() – test asymptotique avec la loi du khi-deux</p></li>
+<li><p>Binom.test() – test exact</p></li>
+</ul>
+<p>On peut choisir si le test est unilatère ou bilatère avec le paramètre «&nbsp;alternative&nbsp;»&nbsp;: greater, lesser ou two-sided.</p>
+<p>Il faut regarder la «&nbsp;p-value&nbsp;», qui donne le niveau de risque pour rejeter l’hypothèse H0.</p>
+</section>
+<section id="test-paramétrique-pour-une-moyenne" class="level3">
+<h3 class="anchored" data-anchor-id="test-paramétrique-pour-une-moyenne">Test paramétrique pour une moyenne</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_12.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Il faut utiliser la fonction t.test dans R.</p>
+</section>
+<section id="test-paramétrique-pour-une-variance" class="level3">
+<h3 class="anchored" data-anchor-id="test-paramétrique-pour-une-variance">Test paramétrique pour une variance</h3>
+<p>Il faut utiliser la fonction var.test dans R.</p>
+</section>
+</section>
+</section>
+<section id="tests-de-comparaison-de-2-échantillons" class="level1">
+<h1>Tests de comparaison de 2 échantillons</h1>
+<p>Les échantillons peuvent être de 2 natures&nbsp;:</p>
+<ul>
+<li><p>appariés&nbsp;: les échantillons portent sur des observations réalisées sur les mêmes individus (c'est très rare)</p></li>
+<li><p>non-appariés&nbsp;: on compare deux échantillons indépendants</p></li>
+</ul>
+<p>Pour comparer la moyenne de 2 échantillons non appariés, on distingue les cas&nbsp;:</p>
+<ul>
+<li><p>Echantillons gaussiens ou grands échantillons, après avoir réalisé un test d'égalité des variances&nbsp;:</p>
+<ul>
+<li><p>Test de Student si les variances sont égales</p></li>
+<li><p>Test de Welch si les variances ne sont pas égales</p></li>
+</ul></li>
+<li><p>Echantillon petit non gaussiens&nbsp;: test de Mann et Whitney</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_13.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Dans R :</p>
+<ul>
+<li><p>Test de Fisher = var.test</p></li>
+<li><p>Test de Student : t.test avec les options “paired = False” et “var.equal = True” (si les variances sont égales)</p></li>
+<li><p>Test de Welch : t.test avec les options “paired = False” et “var.equal = False”</p></li>
+</ul>
+<p>Pour comparer la moyenne de 2 échantillons appariés, on distingue les cas&nbsp;:</p>
+<ul>
+<li><p>Echantillon gaussien ou grand échantillon&nbsp;: test de Student sur les différences</p></li>
+<li><p>Petits échantillons non gaussiens&nbsp;: test de Wilcoxon</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/statinf_14.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Dans R :</p>
+<ul>
+<li><p>Test de Student&nbsp;: t.test avec l'option «&nbsp;paired = TRUE&nbsp;»</p></li>
+<li><p>Test de Wilcoxon&nbsp;: wilcox.test avec l'option «&nbsp;paired = FALSE&nbsp;»</p></li>
+</ul>
+</section>
+<section id="autres-cas-dapplication" class="level1">
+<h1>Autres cas d’application</h1>
+<p>Les exemples présentés ci-après sont issus du livre «&nbsp;R pour la statistique et la science des données&nbsp;».</p>
+<section id="intervalle-de-confiance-dune-moyenne" class="level2">
+<h2 class="anchored" data-anchor-id="intervalle-de-confiance-dune-moyenne">Intervalle de confiance d’une moyenne</h2>
+<p>Nous cherchons à construire un intervalle de confiance pour la moyenne <em>mu</em> d'une variable quantitative. En pratique, pour un petit échantillon, on teste la normalité des données avant d'appliquer la formule. Pour les grands échantillons (n &gt; 30), le théorème central limite assure que la formule reste satisfaisante.</p>
+<p>Pour ce faire, il faut suivre les étapes suivantes&nbsp;:</p>
+<ol type="1">
+<li><p>Importer les données</p></li>
+<li><p>Estimer les paramètres (moyenne et écart-type)</p></li>
+<li><p>Représenter la distribution des données. Avant toute analyse, il est conseillé de représenter les données (histogramme).</p></li>
+<li><p>Construire l'intervalle de confiance</p></li>
+</ol>
+<p>Pour ce faire, on utilise la fonction t.test(), avec le «&nbsp;conf.level&nbsp;» attendu. Avec ce résultat, nous pouvons affirmer, avec une confiance de 95%, dans l'intervalle obtenu contient la «&nbsp;vraie&nbsp;» valeur de <em>mu</em>.</p>
+<p>Si nous réalisons ce test sur une proportion et non sur une moyenne, il faut utiliser la fonction prop.test().</p>
+</section>
+<section id="test-du-chi²-dindépendance" class="level2">
+<h2 class="anchored" data-anchor-id="test-du-chi²-dindépendance">Test du chi² d’indépendance</h2>
+<p>Il faut utiliser la fonction chisq.test() pour tester l'indépendance entre les effectifs de deux variables qualitatives (l'exemple qui est donné est celui de la répartition de la couleur de cheveux en fonction du sexe). Le test permettra de conclure (ou non) que la couleur de cheveux dépend du sexe de l'enfant.</p>
+<p>Le test se construit sur la base d'un tableau de contingence qui peut être obtenu par la fonction xtabs().</p>
+</section>
+<section id="comparaison-de-2-moyennes" class="level2">
+<h2 class="anchored" data-anchor-id="comparaison-de-2-moyennes">Comparaison de 2 moyennes</h2>
+<p>Il faut disposer d'une variable quantitative qui est supposée avoir été tirée aléatoirement dans une population.</p>
+<p>H0 = les moyennes théoriques mu1 et mu2 sont égales</p>
+<p>H1 = les moyennes théoriques mu1 et mu2 ne sont pas égales.</p>
+<p>L'exemple est celui du poids des poulpes mâles et femelles au stade adulte. Attention, dans le cas des petits échantillons (n &lt; 30), il faut tester l'hypothèse de normalité.</p>
+<p>La comparaison se réalise en suivant les étapes suivantes&nbsp;:</p>
+<ul>
+<li><p>Importer les données</p></li>
+<li><p>Comparer graphiquement les deux populations (comparaison de boxplots)</p></li>
+<li><p>Estimer les statistiques de base dans chaque groupe</p></li>
+</ul>
+<p>Pour ce faire, dans R, on peut utiliser la fonction aggregate et summary. Exemple&nbsp;:</p>
+<p><code>aggregate(don$Poids, by = list(don$Sexe), FUN = summary)</code></p>
+<p>Pour obtenir l'écart-type, on peut utiliser la fonction tapply&nbsp;:</p>
+<p><code>tapply(don$Poids, don$Sexe, sd)</code></p>
+<ul>
+<li>Tester la normalité des données</li>
+</ul>
+<p>Le test ne doit être réalisé que si la taille de l'échantillon est inférieure à 30.</p>
+<p>Le test est réalisé en mobilisant le test de Shapiro-Wilk (shapiro.test). Si la probabilité critique est supérieure à 5%, on conserve l'hypothèse de normalité.</p>
+<ul>
+<li>Tester l'égalité des variances</li>
+</ul>
+<p>On utilise la fonction var.test.</p>
+<ul>
+<li>Tester l'égalité des moyennes</li>
+</ul>
+<p>On peut utiliser la fonction t.test en renseignant l'argument var.equal = FALSE. Dans ce cas, c'est le test de Welsh. Les modalités de rédaction sont les suivantes&nbsp;:</p>
+<p><code>t.test(Poids ~ Sexe, alternative = «&nbsp;two.sided&nbsp;», conf.level = 0.95, var.equal = FALSE, data = don)</code></p>
+</section>
+<section id="test-sur-les-proportions" class="level2">
+<h2 class="anchored" data-anchor-id="test-sur-les-proportions">Test sur les proportions</h2>
+<p>Il s'agit des tests&nbsp;:</p>
+<ul>
+<li><p>De conformité d'une proportion à une valeur donnée. Dans ce cas, on cherche la probabilité d'observer un caractère particulier dans une population et on examine l'hypothèse d'égalité de cette probabilité à une valeur donnée</p></li>
+<li><p>Des tests d'égalité de plusieurs proportions. Dans ce cas, on cherche à comparer les probabilités d'observation d'un caractère particulier selon l'appartenance des individus à différentes catégories.</p></li>
+</ul>
+<p>On reprend l'exemple de la répartition des couleurs de cheveux en fonction du sexe de l'enfant. On s'intéresse à la répartition des cheveux blonds en fonction du sexe&nbsp;:</p>
+<ul>
+<li><p>Dans un premier temps, on cherche à tester l'égalité des proportions de filles et garçons avec les cheveux blonds. Pour ce faire, on utilise la fonction binom.test, qui réalise un test binomial exact.</p></li>
+<li><p>Dans un second temps, on cherche à tester l'égalité de la proportion des garçons dans les 5 catégories définies par la couleur de cheveux (blond, roux, brun, …). Pour ce faire, on utilise la fonction prop.test.</p></li>
+</ul>
+<p><u><strong>Cas 1&nbsp;:</strong></u></p>
+<p>On veut tester si la proportion de garçons avec les cheveux blonds est égale à 50%&nbsp;:</p>
+<p>H0 = la proportion est égale à 50%</p>
+<p>H1 = la proportion n'est pas égale à 50%</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">binom.test</span>(<span class="at">x =</span> <span class="dv">592</span>, <span class="at">n =</span> <span class="dv">1136</span>, <span class="at">p =</span> <span class="fl">0.5</span>, <span class="at">alternative =</span> <span class="st">"two.sided"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Exact binomial test
+
+data:  592 and 1136
+number of successes = 592, number of trials = 1136, p-value = 0.1631
+alternative hypothesis: true probability of success is not equal to 0.5
+95 percent confidence interval:
+ 0.4916142 0.5505297
+sample estimates:
+probability of success 
+             0.5211268 </code></pre>
+</div>
+</div>
+<p>Si la probabilité critique est plus élevée que 5%, nous conservons l'hypothèse H0 pour ce seuil.</p>
+<p><u><strong>Cas 2&nbsp;:</strong></u></p>
+<p>On veut tester l'égalité des proportions de filles pour les différentes couleurs de cheveux. Pour ce faire, on utilise la fonction prop.test&nbsp;:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">prop.test</span>(<span class="fu">c</span>(<span class="dv">544</span>, <span class="dv">97</span>, <span class="dv">677</span>, <span class="dv">451</span>, <span class="dv">14</span>), <span class="at">n=</span><span class="fu">c</span>(<span class="dv">1136</span>, <span class="dv">216</span>, <span class="dv">1526</span>, <span class="dv">955</span>, <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    5-sample test for equality of proportions without continuity correction
+
+data:  c(544, 97, 677, 451, 14) out of c(1136, 216, 1526, 955, 50)
+X-squared = 10.467, df = 4, p-value = 0.03325
+alternative hypothesis: two.sided
+sample estimates:
+   prop 1    prop 2    prop 3    prop 4    prop 5 
+0.4788732 0.4490741 0.4436435 0.4722513 0.2800000 </code></pre>
+</div>
+</div>
+<p>Si la p-valeur est inférieure à 5%, on peut rejeter l'hypothèse d'égalité.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

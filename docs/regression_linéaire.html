@@ -132,7 +132,28 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#régression-linéaire" id="toc-régression-linéaire" class="nav-link active" data-scroll-target="#régression-linéaire">Régression linéaire</a>
+  <ul class="collapse">
+  <li><a href="#principes-de-modélisation" id="toc-principes-de-modélisation" class="nav-link" data-scroll-target="#principes-de-modélisation">Principes de modélisation</a></li>
+  <li><a href="#logique-de-mise-en-application" id="toc-logique-de-mise-en-application" class="nav-link" data-scroll-target="#logique-de-mise-en-application">Logique de mise en application</a></li>
+  </ul></li>
+  <li><a href="#régression-linéaire-multiple" id="toc-régression-linéaire-multiple" class="nav-link" data-scroll-target="#régression-linéaire-multiple">Régression linéaire multiple</a>
+  <ul class="collapse">
+  <li><a href="#présentation-du-cas-détude-et-modélisation" id="toc-présentation-du-cas-détude-et-modélisation" class="nav-link" data-scroll-target="#présentation-du-cas-détude-et-modélisation">Présentation du cas d’étude et modélisation</a></li>
+  <li><a href="#estimation" id="toc-estimation" class="nav-link" data-scroll-target="#estimation">Estimation</a></li>
+  <li><a href="#ajustement-et-prévision" id="toc-ajustement-et-prévision" class="nav-link" data-scroll-target="#ajustement-et-prévision">Ajustement et prévision</a></li>
+  <li><a href="#variabilité" id="toc-variabilité" class="nav-link" data-scroll-target="#variabilité">Variabilité</a></li>
+  <li><a href="#qualité-du-modèle" id="toc-qualité-du-modèle" class="nav-link" data-scroll-target="#qualité-du-modèle">Qualité du modèle</a></li>
+  <li><a href="#ajustement-et-prévision-1" id="toc-ajustement-et-prévision-1" class="nav-link" data-scroll-target="#ajustement-et-prévision-1">Ajustement et prévision</a></li>
+  <li><a href="#choix-des-variables-choix-des-modèles" id="toc-choix-des-variables-choix-des-modèles" class="nav-link" data-scroll-target="#choix-des-variables-choix-des-modèles">Choix des variables, choix des modèles</a></li>
+  <li><a href="#application" id="toc-application" class="nav-link" data-scroll-target="#application">Application</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -154,8 +175,181 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<section id="régression-linéaire" class="level1">
+<h1>Régression linéaire</h1>
+<p>L'objectif de la régression est de construire un modèle permettant de modéliser les relations entre plusieurs variables, dans un but d'analyse ou afin de réaliser des prédictions ou des prévisions. Les objectifs sont doubles&nbsp;:</p>
+<ol type="1">
+<li><p>Expliquer une variable Y par des variables X, et donc mettre au jour les liens entre la variable Y et ces variables&nbsp;;</p></li>
+<li><p>Prédire de nouvelles valeurs pour Y.</p></li>
+</ol>
+<p>Dans le cas de la régression linéaire, il s'agit de chercher une fonction <em>f</em> telle que&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p><em>Dans cette exemple, il s'agit d'une fonction pour prédire un pic d'ozone(O3) en fonction de la température (T12)</em></p>
+<p>Le modèle linéaire est pertinent si la relation entre les variables est linéaire (et non sinusoïdale ou autre).</p>
+<p>Afin de déterminer cette fonction, il faut choisir un <u><strong>critère</strong></u> appelé <u><strong>fonction de coût</strong></u>. Nous choisissons le coût quadratique. Notre droite sera donc la droite des moindres. Cela permet d'éviter d'avoir de très fortes erreurs dans le modèle, puisqu'elles seront élevées au carré (et donc facilement identifiables).</p>
+<p>Dans le cas présent, les minimiseurs sont Beta et Beta2.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Dans le cas du modèle prédictif de la température, l'équation est donc la suivante&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Avant de lancer une régression, il peut être intéressant de regarder les coefficients de corrélation entre les variables explicatives et la variable à expliquer. Si tous les coefficients sont faibles à priori le modèle ne sera pas très bon.</p>
+<section id="principes-de-modélisation" class="level2">
+<h2 class="anchored" data-anchor-id="principes-de-modélisation">Principes de modélisation</h2>
+<p>Nous considérons le modèle suivant&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Ici&nbsp;:</p>
+<ul>
+<li><p>Xi (la température T12) est <u><strong>fixée</strong></u> (connue)</p></li>
+<li><p>Epsiloni (erreur due à l'imprécision modèle &amp; mesure) est <u><strong>aléatoire</strong></u></p></li>
+<li><p>Yi (l'ozone O3) est <u><strong>aléatoire</strong></u></p></li>
+<li><p>Beta1 et Beta2 sont <u><strong>fixes</strong></u> et <u><strong>inconnus</strong></u>.</p></li>
+</ul>
+<p>L'objectif du modèle est de fournir des estimateurs de Beta1 et Beta2.</p>
+<p>Les estimateurs des moindres carrés sont les suivants&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin2-01.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Une fois ces éléments posés, nous pouvons nous poser les questions suivantes&nbsp;:</p>
+<ul>
+<li><p>Quelles sont les propriétés des estimateurs&nbsp;?</p></li>
+<li><p>Quelles est la variabilité / précision de l'estimateur&nbsp;?</p></li>
+<li><p>Le modèle est-il bon&nbsp;?</p></li>
+<li><p>Quelle est la variabilité de la prévision&nbsp;?</p></li>
+</ul>
+<p>Dans R :</p>
+<ul>
+<li><p>La création d'un modèle linéaire est réalisé avec la fonction lm().</p></li>
+<li><p>La variable à expliquer (Y) est placée en avant, les variables explicatives par la suite, séparées de la variable à expliquer par le ~. Si on prend toutes les variables contenues dans le data frame, on peut utiliser le «&nbsp;.&nbsp;».</p></li>
+<li><p>La constante Beta1 est toujours sous-entendue. Pour la retirer, il est faut ajouter -1 devant les variables explicatives.</p></li>
+</ul>
+<p>La lecture des résultats de la fonction est réalisée de la façon suivante.</p>
+<p>Call&nbsp;: rappel de la formule du modèle</p>
+<p>Coefficients&nbsp;:</p>
+<ul>
+<li><p>Estimate&nbsp;: estimation de l'estimateur</p></li>
+<li><p>Std. Error&nbsp;: écart-type de l'estimateur</p></li>
+<li><p>T value&nbsp;: estimation divisée par l'écart-type. Il faut qu'elle soit supérieure à |2| pour que la variable ait un effet dans le modèle</p></li>
+<li><p>Pr (&gt; |t|)&nbsp;: résultat du test statistique. Il permet de déterminer si on refuse l'hypothèse que les estimateurs (Beta1 ou Beta2 ici) vaillent 0. Dans le cas présent, nous rejetons cette hypothèse dans les 2 cas, car le résultat est inférieur à 5% (0.05).</p></li>
+</ul>
+</section>
+<section id="logique-de-mise-en-application" class="level2">
+<h2 class="anchored" data-anchor-id="logique-de-mise-en-application">Logique de mise en application</h2>
+<p>La construction d'un modèle suppose de réaliser les étapes suivantes&nbsp;:</p>
+<ol type="1">
+<li>On mesure des variables – on construit un tableau de données</li>
+<li>Dans ces variables, on identifie une variable à expliquer et une (ou plusieurs) variables (potentiellement) explicatives</li>
+<li>On suppose que la variable à expliquer suive la fonction suivante&nbsp;:</li>
+</ol>
+<p><em>y = Beta1 + Beta2 * variableExp + épsilon (bruit)</em></p>
+<ol start="4" type="1">
+<li>On cherche à estimer les paramètres Beta1 et Beta2. Pour ce faire, on détermine la fonction de coût que l'on souhaite appliquer (ici, moindres carrés ordinaires)</li>
+<li>On utilise la fonction lm() pour obtenir les estimateurs, la variance de chaque coefficient et la statistique de test (si H0 est vérifiée, le paramètre est égal à 0)</li>
+</ol>
+</section>
+</section>
+<section id="régression-linéaire-multiple" class="level1">
+<h1>Régression linéaire multiple</h1>
+<section id="présentation-du-cas-détude-et-modélisation" class="level2">
+<h2 class="anchored" data-anchor-id="présentation-du-cas-détude-et-modélisation">Présentation du cas d’étude et modélisation</h2>
+<p>Dans le cas de la régression linéaire multiple (ou classification supervisée quand la variable à expliquer est qualitative), plusieurs variables explicatives sont mobilisées pour expliquer une variable Y.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>L'écriture matricielle est la suivante&nbsp;:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/reg_lin6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>S'agissant de l'erreur epsilon, nous faisons l'hypothèse que son espérance vaut 0 et que sa variance est égale à son écart-type.</p>
+</section>
+<section id="estimation" class="level2">
+<h2 class="anchored" data-anchor-id="estimation">Estimation</h2>
+<p>La fonction de coût est les moindres carrés ordinaires. Nous cherchons donc la fonction qui minime le «&nbsp;coût&nbsp;». Celle-ci permet de définir des estimateurs appelés Beta chapeau (chapeau car ils sont estimés au regard des données à notre disposition).</p>
+<p>Les résultats sont&nbsp;:</p>
+<ul>
+<li><p>L'estimation des coefficients</p></li>
+<li><p>Les valeurs ajustées (fitted values)</p></li>
+<li><p>Les résidus (residuals)</p></li>
+</ul>
+</section>
+<section id="ajustement-et-prévision" class="level2">
+<h2 class="anchored" data-anchor-id="ajustement-et-prévision">Ajustement et prévision</h2>
+<p>A partir de nos estimateurs, on peut donner une prévision. Celle-ci est néanmoins toujours accompagnée d'un intervalle de confiance (et donc déterminer la variabilité du modèle).</p>
+</section>
+<section id="variabilité" class="level2">
+<h2 class="anchored" data-anchor-id="variabilité">Variabilité</h2>
+<p>Plusieurs dimensions peuvent être étudiées afin de déterminer la précision du modèle&nbsp;:</p>
+<ul>
+<li><p>L'espérance et la variance de Beta chapeau</p></li>
+<li><p>L'intervalle de confiance de Beta i</p></li>
+<li><p>L'intervalle de confiance de Y*</p></li>
+</ul>
+<p>Y* est une variable aléatoire. L'objectif du modèle est d'avoir un écart faible entre Y* - Y* chapeau.</p>
+</section>
+<section id="qualité-du-modèle" class="level2">
+<h2 class="anchored" data-anchor-id="qualité-du-modèle">Qualité du modèle</h2>
+<p>Plusieurs éléments peuvent être mobilisés afin de déterminer la qualité du modèle&nbsp;:</p>
+<ul>
+<li><p>Le R². Il est compris entre 0 et 1. C'est une première mesure mais elle est peu fiable&nbsp;: le R² augmente mécaniquement lorsque le nombre de variables augmente.</p></li>
+<li><p>Regarder les résidus studentisés. Ces derniers permettent de déterminer si une observation qu'on réalise «&nbsp;arrive&nbsp;» souvent ou non, c'est-à-dire les <u><strong>points aberrants</strong></u>. On peut les identifier via les résidus studentisés du modèle (rstudent(modele$residuals))</p></li>
+<li><p>Identifier les <u><strong>points leviers</strong></u>, via la fonction hatvalues().</p></li>
+</ul>
+</section>
+<section id="ajustement-et-prévision-1" class="level2">
+<h2 class="anchored" data-anchor-id="ajustement-et-prévision-1">Ajustement et prévision</h2>
+<p>Réaliser une prévision, c'est étendre ses conclusions à autre chose que l'échantillon étudié. Plusieurs méthodes peuvent être mobilisées&nbsp;:</p>
+<ul>
+<li><p>L'apprentissage-validation&nbsp;: On sépare notre échantillon en deux groupes pour tester le modèle (groupe pour l'apprentissage et groupe pour la validation)</p></li>
+<li><p>La validation croisée&nbsp;: On sépare notre échantillon en groupes et on teste de façon croisée le modèle</p></li>
+</ul>
+</section>
+<section id="choix-des-variables-choix-des-modèles" class="level2">
+<h2 class="anchored" data-anchor-id="choix-des-variables-choix-des-modèles">Choix des variables, choix des modèles</h2>
+<p>Le choix du modèle est réalisé par la méthode AIC ou BIC. La sélection des variables peut être&nbsp;:</p>
+<ul>
+<li><p>Forward&nbsp;: on ajoute un coefficient à chaque étape, tant que cela ne dégrade pas l'indice AIC</p></li>
+<li><p>Backward&nbsp;: on retire un coefficient à chaque étape, tant que cela ne dégrade pas l'indice AIC</p></li>
+<li><p>Sideways&nbsp;: on ajoute un coefficient à chaque étape, avec une possibilité de faire «&nbsp;machine arrière&nbsp;»</p></li>
+</ul>
+<p>Nous retenons le plus souvent la modalité <u><strong>backward</strong></u>.</p>
+</section>
+<section id="application" class="level2">
+<h2 class="anchored" data-anchor-id="application">Application</h2>
+<p>D'un point de vue logiciel, la séquence est ainsi la suivante&nbsp;:</p>
+<ol type="1">
+<li><p>On charge les données</p></li>
+<li><p>On déterminer la variable à expliquer et les variables explicatives</p></li>
+<li><p>On peut réaliser une ACP pour étudier la structure de corrélation et identifier les individus leviers</p></li>
+<li><p>On réalise un premier modèle</p></li>
+<li><p>On regarde la significativité des paramètres (test statistique)</p></li>
+<li><p>On retire les variables non significatives du modèle, jusqu'à obtenir le modèle final</p></li>
+<li><p>On regarde les points aberrants via les résidus studentisés (structure via représentation graphique ou identification des grands résidus).</p></li>
+<li><p>On retire les aberrants et on refait un modèle par itération.</p></li>
+</ol>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

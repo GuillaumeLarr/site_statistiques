@@ -216,24 +216,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
 <p>Quelle que soit la méthode, il faut définir :</p>
 <ul>
-<li><p>Une <u><strong>mesure de dissimilarité ou similarité</strong></u> entre les <u><strong>individus.</strong></u> Il s'agit ainsi de faire en sorte que les individus <u><strong>soient les plus similaires possibles dans un groupe</strong></u> (variabilité intra-classe faible).</p></li>
-<li><p>Une mesure de <u><strong>l'homogénéité des groupes</strong></u> et <u><strong>la différence entre les différents groupes.</strong></u> Il s'agit ainsi de faire en sorte que les groupes <u><strong>soient les plus différents entre eux</strong></u> (variabilité inter-classe grande).</p></li>
+<li><p>Une <u><strong>mesure de dissimilarité ou similarité</strong></u> entre les <u><strong>individus.</strong></u> Il s’agit ainsi de faire en sorte que les individus <u><strong>soient les plus similaires possibles dans un groupe</strong></u> (variabilité intra-classe faible).</p></li>
+<li><p>Une mesure de <u><strong>l’homogénéité des groupes</strong></u> et <u><strong>la différence entre les différents groupes.</strong></u> Il s’agit ainsi de faire en sorte que les groupes <u><strong>soient les plus différents entre eux</strong></u> (variabilité inter-classe grande).</p></li>
 </ul>
-<p>Inertie (notion de variabilité)&nbsp;: distance au carré de tous les points à la moyenne du groupe. Dans le cadre d'une démarche de classification, l'inertie totale est égale à la somme entre la variabilité inter-classe et de la variabilité intra-classe, donc minimiser un des paramètres revient à maximiser l'autre. Le ratio inertie inter / inertie totale est compris entre 0 et 1, plus il est proche de 1, plus les individus au sein des classes sont homogènes et les classes différentes.</p>
-<p>Attention&nbsp;: avant de réaliser toute classification, il faut centrer-réduire les données. Les données utilisées ne peuvent, en outre, n'être que quantitatives. Si des variables qualitatives doivent être incluses, nous pouvons récupérer leurs coordonnées sur les principaux plans factoriels après avoir réalisé une AFC.</p>
+<p>Inertie (notion de variabilité)&nbsp;: distance au carré de tous les points à la moyenne du groupe. Dans le cadre d’une démarche de classification, l’inertie totale est égale à la somme entre la variabilité inter-classe et de la variabilité intra-classe, donc minimiser un des paramètres revient à maximiser l’autre. Le ratio inertie inter / inertie totale est compris entre 0 et 1, plus il est proche de 1, plus les individus au sein des classes sont homogènes et les classes différentes.</p>
+<p>Attention&nbsp;: avant de réaliser toute classification, il faut centrer-réduire les données. Les données utilisées ne peuvent, en outre, n’être que quantitatives. Si des variables qualitatives doivent être incluses, nous pouvons récupérer leurs coordonnées sur les principaux plans factoriels après avoir réalisé une AFC.</p>
 </section>
 <section id="k-means" class="level2">
 <h2 class="anchored" data-anchor-id="k-means">K-means</h2>
 <section id="présentation-générale" class="level3">
 <h3 class="anchored" data-anchor-id="présentation-générale">Présentation générale</h3>
-<p>Le sujet d'une classification est ainsi, à K fixé (c'est-à-dire le nombre de groupes), de minimiser l'inertie intra-classes, donc rendre les classes les plus homogènes possibles, et de maximiser l'inertie inter-classes, donc séparer le plus possible les classes entre elles. La qualité d'un clustering peut être évaluée par le rapport&nbsp;: Inertie<sub>inter</sub> / inertie<sub>totale</sub>. C'est l'objectif visé par la méthode des <u><strong>k-means.</strong></u></p>
+<p>Le sujet d’une classification est ainsi, à K fixé (c’est-à-dire le nombre de groupes), de minimiser l’inertie intra-classes, donc rendre les classes les plus homogènes possibles, et de maximiser l’inertie inter-classes, donc séparer le plus possible les classes entre elles. La qualité d’un clustering peut être évaluée par le rapport&nbsp;: Inertie<sub>inter</sub> / inertie<sub>totale</sub>. C’est l’objectif visé par la méthode des <u><strong>k-means.</strong></u></p>
 <p>Pour appliquer la méthode des k-means, il faut choisir&nbsp;:</p>
 <ul>
 <li><p>Le nombre de groupes K. Il peut être fait&nbsp;:</p>
 <ul>
-<li><p>En fonction d'une connaissance a priori de la base</p></li>
-<li><p>A la suite d'une CAH</p></li>
-<li><p>Selon un critère ad-hoc&nbsp;: <u><strong>«&nbsp;coude&nbsp;» dans la représentation graphique de l'inertie intra-classes.</strong></u></p></li>
+<li><p>En fonction d’une connaissance a priori de la base</p></li>
+<li><p>A la suite d’une CAH</p></li>
+<li><p>Selon un critère ad-hoc&nbsp;: <u><strong>«&nbsp;coude&nbsp;» dans la représentation graphique de l’inertie intra-classes.</strong></u></p></li>
 </ul></li>
 </ul>
 <p>Pour ce faire, on peut utiliser la boucle suivante :</p>
@@ -263,7 +263,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <ul>
 <li><p>La distance entre vecteurs (qui est la distance euclidienne)</p></li>
 <li><p>Le représentant de chaque groupe (moyenne du groupe)</p></li>
-<li><p>Le point de départ de l'algorithme</p></li>
+<li><p>Le point de départ de l’algorithme</p></li>
 </ul>
 <p>Dans RStudio, mettre en œuvre la méthode se fait de la façon suivante&nbsp;:</p>
 <div class="cell">
@@ -306,9 +306,9 @@ Species 1.707502e-39  4
 Description of each cluster by the categories
 =============================================
 $`1`
-                  Cla/Mod  Mod/Cla   Global      p.value    v.test
-Species=virginica      72 76.59574 33.33333 6.526248e-14  7.497065
-Species=setosa          0  0.00000 33.33333 3.783976e-11 -6.612299
+                   Cla/Mod  Mod/Cla   Global      p.value    v.test
+Species=versicolor      78 73.58491 33.33333 1.297000e-14  7.706121
+Species=setosa           0  0.00000 33.33333 6.075543e-13 -7.198776
 
 $`2`
                    Cla/Mod Mod/Cla   Global      p.value    v.test
@@ -317,9 +317,9 @@ Species=virginica        0       0 33.33333 5.012323e-12 -6.905227
 Species=versicolor       0       0 33.33333 5.012323e-12 -6.905227
 
 $`3`
-                   Cla/Mod  Mod/Cla   Global      p.value    v.test
-Species=versicolor      78 73.58491 33.33333 1.297000e-14  7.706121
-Species=setosa           0  0.00000 33.33333 6.075543e-13 -7.198776
+                  Cla/Mod  Mod/Cla   Global      p.value    v.test
+Species=virginica      72 76.59574 33.33333 6.526248e-14  7.497065
+Species=setosa          0  0.00000 33.33333 3.783976e-11 -6.612299
 
 
 Link between the cluster variable and the quantitative variables
@@ -333,14 +333,14 @@ Sepal.Width  0.5208606 3.265505e-24
 Description of each cluster by quantitative variables
 =====================================================
 $`1`
-               v.test Mean in category Overall mean sd in category Overall sd
-Sepal.Length 9.366782         6.780851     5.843333      0.4853769  0.8253013
-Petal.Width  8.390136         1.972340     1.199333      0.3272725  0.7596926
-Petal.Length 8.213914         5.510638     3.758000      0.6311873  1.7594041
+                v.test Mean in category Overall mean sd in category Overall sd
+Petal.Length  3.137597         4.369811     3.758000      0.5551083  1.7594041
+Petal.Width   2.540187         1.413208     1.199333      0.3083968  0.7596926
+Sepal.Width  -7.970600         2.673585     3.057333      0.2518992  0.4344110
                   p.value
-Sepal.Length 7.477757e-21
-Petal.Width  4.855788e-17
-Petal.Length 2.140928e-16
+Petal.Length 1.703391e-03
+Petal.Width  1.107932e-02
+Sepal.Width  1.579055e-15
 
 $`2`
                  v.test Mean in category Overall mean sd in category Overall sd
@@ -355,14 +355,14 @@ Petal.Width  2.443627e-27
 Petal.Length 1.980605e-29
 
 $`3`
-                v.test Mean in category Overall mean sd in category Overall sd
-Petal.Length  3.137597         4.369811     3.758000      0.5551083  1.7594041
-Petal.Width   2.540187         1.413208     1.199333      0.3083968  0.7596926
-Sepal.Width  -7.970600         2.673585     3.057333      0.2518992  0.4344110
+               v.test Mean in category Overall mean sd in category Overall sd
+Sepal.Length 9.366782         6.780851     5.843333      0.4853769  0.8253013
+Petal.Width  8.390136         1.972340     1.199333      0.3272725  0.7596926
+Petal.Length 8.213914         5.510638     3.758000      0.6311873  1.7594041
                   p.value
-Petal.Length 1.703391e-03
-Petal.Width  1.107932e-02
-Sepal.Width  1.579055e-15</code></pre>
+Sepal.Length 7.477757e-21
+Petal.Width  4.855788e-17
+Petal.Length 2.140928e-16</code></pre>
 </div>
 </div>
 <p>La sortie représente les variables les plus liées à la variable de classe. Une valeur-test supérieure à 2 en valeur absolue signifie que la moyenne de la classe est significativement différente de la moyenne générale. Un signe positif de la valeur-test indique que la moyenne de la classe est supérieure à la moyenne générale.</p>
@@ -372,10 +372,10 @@ Sepal.Width  1.579055e-15</code></pre>
 <h2 class="anchored" data-anchor-id="classification-ascendante-hiérarchique-cah">Classification ascendante hiérarchique (CAH)</h2>
 <section id="présentation-générale-1" class="level3">
 <h3 class="anchored" data-anchor-id="présentation-générale-1">Présentation générale</h3>
-<p>Le dendrogramme représente, sous forme d'arbre binaire, les agrégations successives jusqu'à la réunion en une seule classe de tous les individus. On parle de racine (1 seule classe), de feuilles (n classes), de branches et de nœuds. Elle met en avant <u><strong>les liens hiérarchiques</strong></u> entre les individus.</p>
-<p>La hauteur d'une branche est égale à l'indice de la hiérarchie, soit usuellement la distance (ultramétrique) entre les deux sous-groupes regroupés. La hauteur donne la difficulté pour deux groupes d'individus à être réunis dans le même groupe.</p>
-<p>Lorsqu'on coupe l'arbre, on peut comptabiliser le nombre de classes retenues.</p>
-<p>En coupant le dendrogramme au niveau d'un saut important, on espère obtenir une partition de bonne qualité : les individus regroupés auparavant étaient proches, tandis que ceux regroupés après la coupure deviennent trop éloignés.</p>
+<p>Le dendrogramme représente, sous forme d’arbre binaire, les agrégations successives jusqu’à la réunion en une seule classe de tous les individus. On parle de racine (1 seule classe), de feuilles (n classes), de branches et de nœuds. Elle met en avant <u><strong>les liens hiérarchiques</strong></u> entre les individus.</p>
+<p>La hauteur d’une branche est égale à l’indice de la hiérarchie, soit usuellement la distance (ultramétrique) entre les deux sous-groupes regroupés. La hauteur donne la difficulté pour deux groupes d’individus à être réunis dans le même groupe.</p>
+<p>Lorsqu’on coupe l’arbre, on peut comptabiliser le nombre de classes retenues.</p>
+<p>En coupant le dendrogramme au niveau d’un saut important, on espère obtenir une partition de bonne qualité : les individus regroupés auparavant étaient proches, tandis que ceux regroupés après la coupure deviennent trop éloignés.</p>
 <p>Dans RStudio&nbsp;:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>hclust <span class="ot">&lt;-</span> <span class="fu">hclust</span>(<span class="at">d =</span> <span class="fu">dist</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]), <span class="at">method =</span> <span class="st">"single"</span>)</span>

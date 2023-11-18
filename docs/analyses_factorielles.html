@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -132,7 +166,26 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#analyse-en-composantes-principales-acp" id="toc-analyse-en-composantes-principales-acp" class="nav-link active" data-scroll-target="#analyse-en-composantes-principales-acp">Analyse en composantes principales (ACP)</a>
+  <ul class="collapse">
+  <li><a href="#etudier-les-individus" id="toc-etudier-les-individus" class="nav-link" data-scroll-target="#etudier-les-individus">Etudier les individus</a></li>
+  <li><a href="#etudier-les-variables" id="toc-etudier-les-variables" class="nav-link" data-scroll-target="#etudier-les-variables">Etudier les variables</a></li>
+  <li><a href="#aides-à-linterprétation" id="toc-aides-à-linterprétation" class="nav-link" data-scroll-target="#aides-à-linterprétation">Aides à l’interprétation</a></li>
+  <li><a href="#pour-mettre-en-oeuvre-lacp" id="toc-pour-mettre-en-oeuvre-lacp" class="nav-link" data-scroll-target="#pour-mettre-en-oeuvre-lacp">Pour mettre en oeuvre l’ACP</a></li>
+  <li><a href="#exercices" id="toc-exercices" class="nav-link" data-scroll-target="#exercices">Exercices</a>
+  <ul class="collapse">
+  <li><a href="#exercice-1" id="toc-exercice-1" class="nav-link" data-scroll-target="#exercice-1">Exercice 1</a></li>
+  <li><a href="#exercice-2" id="toc-exercice-2" class="nav-link" data-scroll-target="#exercice-2">Exercice 2</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#analyse-des-correspondances" id="toc-analyse-des-correspondances" class="nav-link" data-scroll-target="#analyse-des-correspondances">Analyse des correspondances</a></li>
+  <li><a href="#analyse-des-correspondances-multiples-acm" id="toc-analyse-des-correspondances-multiples-acm" class="nav-link" data-scroll-target="#analyse-des-correspondances-multiples-acm">Analyse des correspondances multiples (ACM)</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -154,8 +207,281 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
+<p>Ces méthodes permettent de synthétiser et de visualiser un tableau de données. Le choix de la méthode dépend du type de variables analysées.</p>
+<section id="analyse-en-composantes-principales-acp" class="level1">
+<h1>Analyse en composantes principales (ACP)</h1>
+<p>Type de données : individus en ligne et <u><strong>variables quantitatives</strong></u> en colonnes.</p>
+<p>Objectifs de la méthode&nbsp;:</p>
+<ol type="1">
+<li><p>Etudier les individus&nbsp;: construire des groupes d'individus qui se ressemblent du point de vue des variables</p></li>
+<li><p>Etudier les variables&nbsp;: rechercher les liaisons linéaires entre les variables, visualiser la <u><strong>matrice des corrélations</strong></u> et rechercher des <u><strong>indicateurs synthétiques</strong></u> qui peuvent résumer les variables</p></li>
+<li><p>Etudier le lien entre les variables et les individus</p></li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FactoMineR)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(iris)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">PCA</span>(iris[,<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]) <span class="co"># On retire la colonne avec des données qualitatives</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results for the Principal Component Analysis (PCA)**
+The analysis was performed on 150 individuals, described by 4 variables
+*The results are available in the following objects:
+
+   name               description                          
+1  "$eig"             "eigenvalues"                        
+2  "$var"             "results for the variables"          
+3  "$var$coord"       "coord. for the variables"           
+4  "$var$cor"         "correlations variables - dimensions"
+5  "$var$cos2"        "cos2 for the variables"             
+6  "$var$contrib"     "contributions of the variables"     
+7  "$ind"             "results for the individuals"        
+8  "$ind$coord"       "coord. for the individuals"         
+9  "$ind$cos2"        "cos2 for the individuals"           
+10 "$ind$contrib"     "contributions of the individuals"   
+11 "$call"            "summary statistics"                 
+12 "$call$centre"     "mean of the variables"              
+13 "$call$ecart.type" "standard error of the variables"    
+14 "$call$row.w"      "weights for the individuals"        
+15 "$call$col.w"      "weights for the variables"          </code></pre>
+</div>
+</div>
+<section id="etudier-les-individus" class="level2">
+<h2 class="anchored" data-anchor-id="etudier-les-individus">Etudier les individus</h2>
+<p>La ressemblance entre les individus = distance (au carré) entre les individus.</p>
+<p>L'objectif de l'ACP est de trouver la «&nbsp;forme&nbsp;» (plan) du nuage qui résume le mieux les données. Cette forme est celle qui maximise l'inertie (dispersion ou variabilité).</p>
+<p>Une ACP produit 2 représentations graphiques&nbsp;:</p>
+<ol type="1">
+<li>Le graphe des individus</li>
+<li>Le cercle des corrélations. Pour analyser les flèches :</li>
+</ol>
+<p>Proximité avec la dimension permet de voir les variables qui contribuent le plus à cette dimension (ex&nbsp;: octobre dans la capture ci-dessous est-fortement corrélé à la première dimension et très faiblement corrélé à la seconde, car sur dim1, coordonnées Octo sont proches de 1, soit de la corrélation et proches de 0 sur la dim2).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Si on prend par la suite l'exemple de juin, sur la dim2, les coordonnées sont -0.5, donc la corrélation est de -0.5. Ainsi, les villes avec des T° élevées en juin ont des coordonnées plutôt faibles sur la dim2.</p>
+<p><img src="images/pca2.png" class="img-fluid"></p>
+</section>
+<section id="etudier-les-variables" class="level2">
+<h2 class="anchored" data-anchor-id="etudier-les-variables">Etudier les variables</h2>
+<p>L'étude des variables est réalisée via la matrice de corrélation et via le cercle des corrélations. Attention, sur le cercle des corrélations, la longueur de la flèche donne la qualité de la projection de la variable. Plus est longue, plus la projection est bonne. Seules les variables bien projetées peuvent être interprétées.</p>
+</section>
+<section id="aides-à-linterprétation" class="level2">
+<h2 class="anchored" data-anchor-id="aides-à-linterprétation">Aides à l’interprétation</h2>
+<ul>
+<li><p><u><strong>Le pourcentage d'inertie&nbsp;:</strong></u> donne le nombre de dimensions à interpréter. Sur une ACP, quand le pourcentage passe sous la barre des 10%, on estime qu'il n'est plus nécessaire de regarder la dimension considérée.</p></li>
+<li><p><u><strong>Pour les variables supplémentaires&nbsp;:</strong></u> on projette les barycentres des individus qui prennent cette modalités (ex&nbsp;: région ci-dessous).</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca3.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p>La <u><strong>qualité de représentation</strong></u> d'une variable ou d'un individu est donnée par le <u><strong>cos2</strong></u>. Seuls les éléments bien projetés peuvent être interprétés.</p></li>
+<li><p>On peut regarder la contribution d'une variable à la construction de l'axe.</p></li>
+<li><p>Analyse les niveaux de corrélation entre les variables et les dimensions (ex&nbsp;: juin = -0.5 dans l'exemple de la partie précédente).</p></li>
+</ul>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<ul>
+<li><p>Les ellipses de confiance</p>
+<ul>
+<li><p>Plus elles sont grandes, plus la dispersion dans le groupe d'individus étudié augmente</p></li>
+<li><p>L'orientation des ellipses représente la corrélation entre les composantes principales. Si l'ellipse est allongée dans une direction spécifique, cela veut dire que les individus sont fortement corrélés dans cette direction</p></li>
+<li><p>Si les ellipses se chevauchent, cela suggère une proximité entre les groupes d'individus (et à l'inverse, on peut identifier des groupes différents)</p></li>
+<li><p>Pour les interpréter, il est dans tous les cas nécessaire de regarder les variables qui contribuent le plus aux dimensions étudiées.</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="pour-mettre-en-oeuvre-lacp" class="level2">
+<h2 class="anchored" data-anchor-id="pour-mettre-en-oeuvre-lacp">Pour mettre en oeuvre l’ACP</h2>
+<ol type="1">
+<li><p>Choisir les variables actives</p></li>
+<li><p>Choisir de réduire ou non les variables (si unités différentes, on réduit toujours)</p></li>
+<li><p>Réaliser l'ACP (factoshiny)</p></li>
+<li><p>Choisir le nombre de dimensions à interpréter (inertie expliquée par les dimensions)</p></li>
+<li><p>Interpréter simultanément le graphe des individus et celui des variables</p></li>
+<li><p>Utiliser les indicateurs pour enrichir l'interprétation</p></li>
+<li><p>Revenir aux données brutes pour interpréter</p></li>
+</ol>
+</section>
+<section id="exercices" class="level2">
+<h2 class="anchored" data-anchor-id="exercices">Exercices</h2>
+<section id="exercice-1" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-1">Exercice 1</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca5.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p><u><strong>Que peut-on dire de la corrélation entre les variables&nbsp;:</strong></u></p>
+<p>A-B&nbsp;: angle à 90°, donc cos proche de 0 = absence de corrélation</p>
+<p>B-C&nbsp;: C est mal projeté. B est bien projeté. Elles sont quasi orthogonales, donc les 2 variables sont indépendantes</p>
+<p>B-D&nbsp;: les deux variables sont corrélées négativement. Quand une augmente, l'autre diminue</p>
+<p>C-E&nbsp;: les deux variables sont mal projetées. On ne peut rien dire</p>
+<p><u><strong>Quel est le pourcentage d'inertie associé au premier plan</strong></u></p>
+<p>Environ 3/5, soit 60% (car 3 variables sur les 5 sont très bien projetées).</p>
+</section>
+<section id="exercice-2" class="level3">
+<h3 class="anchored" data-anchor-id="exercice-2">Exercice 2</h3>
+<p><u><strong>Analyse la qualité globale de la projection</strong></u></p>
+<p>Même en tenant compte du faible nombre d’individus (8), la qualité globale de projection est plutôt élevée sur le plan factoriel : le pourcentage d’inertie expliquée par le plan principal est de 88%. Cela signifie que 88% de la variabilité des données est exprimée sur le plan principal. Le 1er axe en particulier est largement prépondérant (74% à lui seul).</p>
+<p><u><strong>Interpréter les axes 1 et 2 de l'ACP</strong></u></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Le graphe des variables montre que beaucoup de variables sont bien représentées (car la pointe des flèches est proche du cercle) et sont très corrélées avec le premier facteur.</p>
+<p>Les corrélations entre les variables et le facteur sont très importantes (proches de 0.9). Les variables fortement corrélées positivement au 1er facteur sont les variables qui caractérisent les bulles, ainsi que la saveur amère, saveur acide. La variable saveur alcaline est corrélée négativement avec le 1er facteur (-0.92) et est corrélée négativement avec les variables qui caractérisent les bulles.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca7.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Le 1er axe oppose les eaux perçues comme très pétillantes et peu alcalines aux eaux perçues comme peu pétillantes et très alcaline. C’est donc l’aspect pétillant qui différencie le plus les eaux d’un point de vue sensoriel.</p>
+<p>Le 2ème axe est plutôt corrélé à la variable salée (corrélation 0.72) et oppose donc les eaux salées aux eaux non salées.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca8.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>L’axe 1 oppose principalement les eaux Perrier et Quézac. Perrier est très pétillante (coordonnées fortement positive), tandis que Vichy est très peu pétillante (coordonnées négatives).</p>
+<p>L’axe 2 oppose principalement l’eau St Yorre (particulièrement salée) aux eaux Badoit et Salvetat (très peu salées).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca9.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p><u><strong>Quelles eaux ont joué un rôle prépondérant dans la construction de l’axe 1 ? Sur quels descripteurs s’opposent les eaux situées aux deux extrémités de cet axe ?</strong></u></p>
+<p>L’eau Perrier et l’eau de Vichy ont fortement contribué à la construction du 1er axe : 54.3% pour l’eau de Perrier (individu 8) et 33% pour l’eau de Vichy (individu 3).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/pca10.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+<p>Les eaux Perrier et Vichy s’opposent d’un point de vue pétillant (Perrier est très pétillante alors que Vichy est peu pétillante) ainsi que du point de vue de la saveur alcaline (Vichy est très alcaline et Perrier très peu).</p>
+<p>Les eaux qui ont joué un rôle prépondérant dans la construction de l’axe 1 sont :</p>
+<ul>
+<li><p>Perrier (cos² = 0.95)</p></li>
+<li><p>Vichy (cos² = 0.88)</p></li>
+<li><p>Quézac (cos² = 0.75)</p></li>
+</ul>
+<p>Ces eaux s’opposent sur les descripteurs suivants :</p>
+<ul>
+<li><p>Saveur acide</p></li>
+<li><p>Intensité des émissions de bulles</p></li>
+<li><p>Effervescence</p></li>
+<li><p>Intensité du crépitement</p></li>
+</ul>
+<p><u><strong>Pourquoi la variable “Appréciation globale” (la note hédonique) a-t-elle été introduite en tant qu'illustrative ? À quoi sert-elle comme variable illustrative ? Est-elle bien représentée sur le plan principal ? Interpréter sa projection.</strong></u></p>
+<p>L’appréciation globale est une variable de nature différente des descripteurs. L’appréciation globale est personnelle. Cette variable est une variable illustrative car on a souhaité positionner les eaux du point de vue de la description sensorielle. L’appréciation globale est mal représentée sur le plan, autrement dit elle n’est pas corrélée aux principales dimensions sensorielles. Certains juges apprécient les eaux pétillantes et d’autres préfèrent les eaux peu pétillantes, certains apprécient les eaux salées et d’autres préfèrent les eaux peu salées.</p>
+</section>
+</section>
+</section>
+<section id="analyse-des-correspondances" class="level1">
+<h1>Analyse des correspondances</h1>
+<p>Type de données&nbsp;: tableau de contingence (exemples où le test d'indépendance du khi² peut être appliqué. L'exemple donné dans le cours est un tableau présentant la répartition des prix Nobel en fonction des pays).</p>
+<p>Objectifs de la méthode&nbsp;: étudier les individus et les variables, mais ce qui est étudié ici, c'est l'écart au profil moyen.</p>
+<p>Le «&nbsp;nuage&nbsp;» produit permet de visualiser l'écart à la situation théorique d'indépendance. Si tous les profils sont confondus au profil moyen, nous sommes dans une situation d'indépendance.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>iris_CA <span class="ot">&lt;-</span> iris <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">autre =</span> <span class="fu">case_when</span>(Sepal.Length <span class="sc">&lt;</span> <span class="dv">5</span> <span class="sc">~</span> <span class="st">"Moins de 5 cm"</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>                           Sepal.Length <span class="sc">&lt;</span> <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Moins de 6 cm"</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                           Sepal.Length <span class="sc">&lt;</span> <span class="dv">7</span> <span class="sc">~</span> <span class="st">"Moins de 7 cm"</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>                           Sepal.Length <span class="sc">&lt;</span> <span class="dv">8</span> <span class="sc">~</span> <span class="st">"Moins de 8 cm"</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>                           <span class="at">.default =</span> <span class="st">"Autre"</span>))</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>table_contingence <span class="ot">&lt;-</span> <span class="fu">table</span>(iris_CA<span class="sc">$</span>autre, iris_CA<span class="sc">$</span>Species)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">CA</span>(table_contingence)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results of the Correspondence Analysis (CA)**
+The row variable has  4  categories; the column variable has 3 categories
+The chi square of independence between the two variables is equal to 97.82799 (p-value =  7.120506e-19 ).
+*The results are available in the following objects:
+
+   name              description                   
+1  "$eig"            "eigenvalues"                 
+2  "$col"            "results for the columns"     
+3  "$col$coord"      "coord. for the columns"      
+4  "$col$cos2"       "cos2 for the columns"        
+5  "$col$contrib"    "contributions of the columns"
+6  "$row"            "results for the rows"        
+7  "$row$coord"      "coord. for the rows"         
+8  "$row$cos2"       "cos2 for the rows"           
+9  "$row$contrib"    "contributions of the rows"   
+10 "$call"           "summary called parameters"   
+11 "$call$marge.col" "weights of the columns"      
+12 "$call$marge.row" "weights of the rows"         </code></pre>
+</div>
+</div>
+<p>Les aides suivantes peuvent être mobilisées pour interpréter les résultats fournis&nbsp;:</p>
+<ul>
+<li><p>La mesure de l'inertie&nbsp;;</p></li>
+<li><p>Les niveaux de contributions ;</p></li>
+<li><p>Les éléments supplémentaires.</p></li>
+</ul>
+</section>
+<section id="analyse-des-correspondances-multiples-acm" class="level1">
+<h1>Analyse des correspondances multiples (ACM)</h1>
+<p>Objectifs de la méthode&nbsp;: idem que l'ACP</p>
+<p>Type de données&nbsp;: à utiliser lorsque le tableau présente des variables qualitatives.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df_mca <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">individus =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="dv">1</span>, <span class="at">to =</span> <span class="dv">10</span>, <span class="at">by =</span> <span class="dv">1</span>),</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">couleur =</span> <span class="fu">c</span>(<span class="st">"vert"</span>, <span class="st">"vert"</span>, <span class="st">"rouge"</span>, <span class="st">"jaune"</span>, <span class="st">"rouge"</span>, <span class="st">"vert"</span>, <span class="st">"jaune"</span>, <span class="st">"jaune"</span>, <span class="st">"bleu"</span>, <span class="st">"bleu"</span>),</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">taille =</span> <span class="fu">c</span>(<span class="fl">1.8</span>, <span class="fl">1.55</span>, <span class="fl">1.4</span>, <span class="fl">1.69</span>, <span class="fl">1.65</span>, <span class="fl">1.9</span>, <span class="fl">1.56</span>, <span class="fl">1.8</span>, <span class="fl">1.6</span>, <span class="fl">1.59</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">reponse =</span> <span class="fu">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"C"</span>, <span class="st">"B"</span>, <span class="st">"A"</span>, <span class="st">"B"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">MCA</span>(df_mca[, <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">4</span>)]) <span class="co"># On ne prend vraiment que les variables qualitatives !</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output-display">
+<p><img src="analyses_factorielles_files/figure-html/unnamed-chunk-4-3.png" class="img-fluid" width="672"></p>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>**Results of the Multiple Correspondence Analysis (MCA)**
+The analysis was performed on 10 individuals, described by 2 variables
+*The results are available in the following objects:
+
+   name              description                       
+1  "$eig"            "eigenvalues"                     
+2  "$var"            "results for the variables"       
+3  "$var$coord"      "coord. of the categories"        
+4  "$var$cos2"       "cos2 for the categories"         
+5  "$var$contrib"    "contributions of the categories" 
+6  "$var$v.test"     "v-test for the categories"       
+7  "$ind"            "results for the individuals"     
+8  "$ind$coord"      "coord. for the individuals"      
+9  "$ind$cos2"       "cos2 for the individuals"        
+10 "$ind$contrib"    "contributions of the individuals"
+11 "$call"           "intermediate results"            
+12 "$call$marge.col" "weights of columns"              
+13 "$call$marge.li"  "weights of rows"                 </code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
