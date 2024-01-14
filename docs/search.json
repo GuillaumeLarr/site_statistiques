@@ -411,5 +411,19 @@
     "title": "Régression logistique",
     "section": "Validation croisée par blocs (régression logistique)",
     "text": "Validation croisée par blocs (régression logistique)\n\n# nb &lt;- 10 # nombre de groupes\n# \n# set.seed(1234)\n# \n# bloc &lt;- sample(rep(1:nb,length=nrow(don)))\n# RES &lt;- data.frame(Y=don$Y,log=NA,aic=NA,bic=NA)\n# \n# for(ii in 1:nb){\n#   donA &lt;- don[bloc!=ii,]\n#   donT &lt;- don[bloc==ii,]\n#   ############################################\n#   algo1 &lt;- glm(Y~.,data=donA,family=\"binomial\")\n#   RES[bloc==ii,\"log\"] &lt;- predict(algo1,donT,type=\"response\")\n#   ############################################\n#   algo2 &lt;- step(algo1,trace=0)\n#   RES[bloc==ii,\"aic\"] &lt;- predict(algo2,donT,type=\"response\")\n#   ############################################\n#   algo3 &lt;- step(algo1,trace=0,k=log(nrow(donA)))\n#   RES[bloc==ii,\"bic\"] &lt;- predict(algo3,donT,type=\"response\")\n# }\n\nLa validation du modèle est réalisée avec le script suivant :\n\n# library(pROC)\n# rocp &lt;- roc(Y~.,data=resdf) # resdf = df obtenu via l'aglo précédent\n# sapply(rocp,coords,x=0.5,ret=c(\"accuracy\",\"threshold\"))"
+  },
+  {
+    "objectID": "geolocalisation.html",
+    "href": "geolocalisation.html",
+    "title": "Géolocalisation",
+    "section": "",
+    "text": "# # Installer le package osrm si ce n'est pas déjà fait\n# # install.packages(\"osrm\")\n# \n# # Charger la bibliothèque\n# library(osrm)\n# \n# # Créer un objet pour stocker les résultats\n# res &lt;- list()\n# \n# # Utiliser une boucle for pour itérer sur les lignes des données\n# for (ii in 1:nrow(data_departs)) {\n#   print(paste(\"Lecture de la ligne \", ii))\n#   \n#   # Obtenir les coordonnées de départ et d'arrivée en tant que vecteurs\n#   coord_depart &lt;- unlist(data_departs[ii, c(\"longitude\", \"latitude\")])\n#   coord_arrivee &lt;- unlist(data_arrivees[ii, c(\"longitude\", \"latitude\")])\n#   \n#   # Effectuer la requête OSRM\n#   res[[ii]] &lt;- osrmRoute(src = coord_depart, dst = coord_arrivee, osrm.profile = \"car\")\n#   \n#   # Attendre 1 seconde entre les requêtes (pour éviter les limitations)\n#   Sys.sleep(2)\n# }\n# \n# # Vous pouvez maintenant accéder aux résultats dans la liste res\n# # Par exemple, le résultat de la première requête est dans res[[1]]\n# \n# resultats &lt;- bind_rows(res) %&gt;%\n#   as_tibble()"
+  },
+  {
+    "objectID": "geolocalisation.html#méthode-pour-calculer-la-distance-et-le-temps-de-trajet-entre-2-adresses-géolocalisées",
+    "href": "geolocalisation.html#méthode-pour-calculer-la-distance-et-le-temps-de-trajet-entre-2-adresses-géolocalisées",
+    "title": "Géolocalisation",
+    "section": "",
+    "text": "# # Installer le package osrm si ce n'est pas déjà fait\n# # install.packages(\"osrm\")\n# \n# # Charger la bibliothèque\n# library(osrm)\n# \n# # Créer un objet pour stocker les résultats\n# res &lt;- list()\n# \n# # Utiliser une boucle for pour itérer sur les lignes des données\n# for (ii in 1:nrow(data_departs)) {\n#   print(paste(\"Lecture de la ligne \", ii))\n#   \n#   # Obtenir les coordonnées de départ et d'arrivée en tant que vecteurs\n#   coord_depart &lt;- unlist(data_departs[ii, c(\"longitude\", \"latitude\")])\n#   coord_arrivee &lt;- unlist(data_arrivees[ii, c(\"longitude\", \"latitude\")])\n#   \n#   # Effectuer la requête OSRM\n#   res[[ii]] &lt;- osrmRoute(src = coord_depart, dst = coord_arrivee, osrm.profile = \"car\")\n#   \n#   # Attendre 1 seconde entre les requêtes (pour éviter les limitations)\n#   Sys.sleep(2)\n# }\n# \n# # Vous pouvez maintenant accéder aux résultats dans la liste res\n# # Par exemple, le résultat de la première requête est dans res[[1]]\n# \n# resultats &lt;- bind_rows(res) %&gt;%\n#   as_tibble()"
   }
 ]
