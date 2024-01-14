@@ -1,0 +1,40 @@
+---
+title: "Géolocalisation"
+format: html
+editor: visual
+---
+
+## Méthode pour calculer la distance et le temps de trajet entre 2 adresses géolocalisées
+
+```{r}
+
+# # Installer le package osrm si ce n'est pas déjà fait
+# # install.packages("osrm")
+# 
+# # Charger la bibliothèque
+# library(osrm)
+# 
+# # Créer un objet pour stocker les résultats
+# res <- list()
+# 
+# # Utiliser une boucle for pour itérer sur les lignes des données
+# for (ii in 1:nrow(data_departs)) {
+#   print(paste("Lecture de la ligne ", ii))
+#   
+#   # Obtenir les coordonnées de départ et d'arrivée en tant que vecteurs
+#   coord_depart <- unlist(data_departs[ii, c("longitude", "latitude")])
+#   coord_arrivee <- unlist(data_arrivees[ii, c("longitude", "latitude")])
+#   
+#   # Effectuer la requête OSRM
+#   res[[ii]] <- osrmRoute(src = coord_depart, dst = coord_arrivee, osrm.profile = "car")
+#   
+#   # Attendre 1 seconde entre les requêtes (pour éviter les limitations)
+#   Sys.sleep(2)
+# }
+# 
+# # Vous pouvez maintenant accéder aux résultats dans la liste res
+# # Par exemple, le résultat de la première requête est dans res[[1]]
+# 
+# resultats <- bind_rows(res) %>%
+#   as_tibble()
+```

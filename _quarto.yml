@@ -17,6 +17,7 @@ website:
       - données_manquantes.qmd
       - redressement.qmd
       - web_scraping.qmd
+      - geolocalisation.qmd
       
 
 format:
